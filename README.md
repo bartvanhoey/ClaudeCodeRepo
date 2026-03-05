@@ -29,7 +29,7 @@ Escape - Interrupt Claude allowing to redirect or correct it.
 
 /clear - Clears the conversation history, allowing you to start fresh without any previous context.
 
-ALT+V paste in an image into the Claude console
+ALT+V paste in an image into the Claude console (or drag and drop it) 
 
 Esc Esc : Rewind the conversation to a previous point, allowing you to go back and change the direction of the conversation or correct any mistakes.
 ```

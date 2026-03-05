@@ -4,7 +4,7 @@ import path from "path";
 const REVIEW_DIR = "src/queries";
 
 async function main() {
-  process.exit(0);
+  // process.exit(0); // UNCOMMENT THIS LINE TO PREVENT QUERY ANALYSIS
   // Read JSON input from stdin
   const input = await new Promise((resolve) => {
     let data = "";

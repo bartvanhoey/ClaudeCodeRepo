@@ -28,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node $PWD/hooks/query_hook.js",
+            "command": "node ./hooks/query_hook.js",
             "timeout": 300
           }
         ]
@@ -53,7 +53,7 @@
           },
           {
             "type": "command",
-            "command": "node $PWD/hooks/tsc.js"
+            "command": "node ./hooks/tsc.js"
           }
         ]
       },
