@@ -1,11 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "mcp__playwright",
+      "Bash(npx vitest:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(node:*)"
     ]
   },
-  "disabledMcpjsonServers": [
-    "context7",
+  "enabledMcpjsonServers": [
     "playwright"
   ]
 }

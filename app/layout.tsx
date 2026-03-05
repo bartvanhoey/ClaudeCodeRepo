@@ -33,7 +33,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.add('dark');})();`,
+            }}
+          />
+        </head>
         {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} > */}
         <body className={`${outfit.className} antialiased`}>
           <Header />
