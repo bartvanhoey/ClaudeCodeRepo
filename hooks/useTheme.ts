@@ -7,13 +7,10 @@ type Theme = "light" | "dark";
 const STORAGE_KEY = "theme";
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>("light");
-
-  useEffect(() => {
-    const stored = (localStorage.getItem(STORAGE_KEY) as Theme) ?? "light";
-    setTheme(stored);
-    document.documentElement.classList.toggle("dark", stored === "dark");
-  }, []);
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "light";
+    return (localStorage.getItem(STORAGE_KEY) as Theme) ?? "light";
+  });
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, theme);

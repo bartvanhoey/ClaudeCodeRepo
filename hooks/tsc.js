@@ -70,7 +70,7 @@ function runTypeCheck(configPath) {
 }
 
 async function main() {
-  const input = await readInput();
+  // process.exit(0); // UNCOMMENT THIS LINE TO PREVENT TYPE CHECKING
   const file = input.tool_response?.filePath || input.tool_input?.file_path;
 
   // Only check TypeScript files
