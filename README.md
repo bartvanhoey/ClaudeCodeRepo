@@ -1,5 +1,7 @@
 # Claude Code
 
+Claude Code is an AI agent designed to help developers understand and work with codebases more efficiently. It can read, edit, and write code, as well as execute commands and interact with various tools to assist you in your development workflow.
+
 ![Tools with Claude Code](images/claude_tools.png)
 
 ## Most Used Claude Commands
@@ -100,18 +102,22 @@ Examples:
 3. Write a command that will receive the tool call
 4. If needed, command should provide feedback to Claude.
 
-## Agents
+## Subagents
 
-Agents are a powerful way to automate complex tasks that require multiple steps and decision-making.
+Subagents are a powerful way to automate complex tasks that require multiple steps and decision-making.
 They allow you to create a sequence of actions that Claude can execute autonomously, based on the goals you set.
 
-**Unit Tester Agent**: An agent that automatically generates unit tests for your codebase. You can set it up to run after every code change, ensuring that your code is always well-tested and that any issues are caught early.
+- subagents have their own isolated context window
+- subagents can be highly specialized for specific tasks
+- subagents can run in parallel to handle multiple tasks at once
+- subagents work with a limited set of tools to ensure they stay focused on their specific task
 
-**Security Auditor Agent**: An agent that scans your codebase for security vulnerabilities. It can be configured to run on a regular schedule or after specific events, such as code commits or pull requests.
+**Unit Tester Subagent**: A subagent that automatically generates unit tests for your codebase. You can set it up to run after every code change, ensuring that your code is always well-tested and that any issues are caught early.
 
-**Documentation Agent**: An agent that generates and updates documentation for your codebase. It can analyze your code and create documentation based on the structure and comments, ensuring that your documentation is always up-to-date.
+**Security Auditor Subagent**: A subagent that scans your codebase for security vulnerabilities. It can be configured to run on a regular schedule or after specific events, such as code commits or pull requests.
 
-**UX Reviewer Agent**: An agent that reviews the user experience of your application. It can analyze user interactions, gather feedback, and suggest improvements to enhance the overall user experience.
+**Documentation Subagent**: A subagent that generates and updates documentation for your codebase. It can analyze your code and create documentation based on the structure and comments, ensuring that your documentation is always up-to-date.
 
+**UX Reviewer Subagent**: A subagent that reviews the user experience of your application. It can analyze user interactions, gather feedback, and suggest improvements to enhance the overall user experience.
 
-
+**Code Quality Reviewer Subagent**: A subagent that reviews the quality of your code. It can analyze code for best practices, maintainability, and adherence to coding standards, providing feedback and suggestions for improvement.
