@@ -56,9 +56,12 @@
     2px 2px 4px -1px hsl(196 83% 10% / 0.15);
   --shadow-lg: 2px 2px 4px 0px hsl(196 83% 10% / 0.15),
     2px 4px 6px -1px hsl(196 83% 10% / 0.15);
-  --shadow-xl: 2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 8px 10px -1px hsl(196 83% 10% / 0.15);
-  --shadow-2xl: 2px 2px 4px 0px hsl(196 83% 10% / 0.38);
+  --shadow-xl: 0 4px 6px -2px hsl(196 83% 10% / 0.08),
+    0 12px 24px -4px hsl(196 83% 10% / 0.20),
+    0 0 0 1px hsl(196 83% 10% / 0.04);
+  --shadow-2xl: 0 8px 16px -4px hsl(196 83% 10% / 0.12),
+    0 24px 48px -8px hsl(196 83% 10% / 0.24),
+    0 0 0 1px hsl(196 83% 10% / 0.06);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
@@ -116,9 +119,12 @@
     2px 2px 4px -1px hsl(196 83% 10% / 0.15);
   --shadow-lg: 2px 2px 4px 0px hsl(196 83% 10% / 0.15),
     2px 4px 6px -1px hsl(196 83% 10% / 0.15);
-  --shadow-xl: 2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 8px 10px -1px hsl(196 83% 10% / 0.15);
-  --shadow-2xl: 2px 2px 4px 0px hsl(196 83% 10% / 0.38);
+  --shadow-xl: 0 4px 6px -2px hsl(196 83% 10% / 0.08),
+    0 12px 24px -4px hsl(196 83% 10% / 0.20),
+    0 0 0 1px hsl(196 83% 10% / 0.04);
+  --shadow-2xl: 0 8px 16px -4px hsl(196 83% 10% / 0.12),
+    0 24px 48px -8px hsl(196 83% 10% / 0.24),
+    0 0 0 1px hsl(196 83% 10% / 0.06);
 }
 
 @theme inline {
@@ -172,6 +178,22 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @layer base {

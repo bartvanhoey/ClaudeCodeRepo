@@ -1,0 +1,110 @@
+[    1035ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/preview/modal:0
+[    2794ms] Error: ./components/NotFoundPage/NotFoundPage.tsx:2:1
+Module not found: Can't resolve '@/components/ui/button'
+  1 | import Link from "next/link"
+> 2 | import Button from "@/components/ui/button"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function NotFoundPage() {
+  5 |   return (
+
+Import map: aliased to relative './components/ui/button' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/NotFoundPage/NotFoundPage.tsx
+    ./app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./components/NotFoundPage/NotFoundPage.tsx:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (file://C:\Personal\MyGitHubRepos\MatchZeroNextJsRepo\node_modules\next\dist\server\dev\hot-reloader-turbopack.js:986:50)
+    at Array.map (<anonymous>)
+    at Object.getCompilationErrors (file://C:\Personal\MyGitHubRepos\MatchZeroNextJsRepo\node_modules\next\dist\server\dev\hot-reloader-turbopack.js:978:19)
+    at DevBundlerService.getCompilationError (file://C:\Personal\MyGitHubRepos\MatchZeroNextJsRepo\node_modules\next\dist\server\lib\dev-bundler-service.js:44:55)
+    at DevServer.getCompilationError (file://C:\Personal\MyGitHubRepos\MatchZeroNextJsRepo\node_modules\next\dist\server\dev\next-dev-server.js:706:42)
+    at DevServer.findPageComponents (file://C:\Personal\MyGitHubRepos\MatchZeroNextJsRepo\node_modules\next\dist\server\dev\next-dev-server.js:676:43)
+    at async DevServer.renderErrorToResponseImpl (file://C:\Personal\MyGitHubRepos\MatchZeroNextJsRepo\node_modules\next\dist\server\base-server.js:1674:30)
+[    2843ms] [ERROR] ./components/NotFoundPage/NotFoundPage.tsx:2:1
+Module not found: Can't resolve '@/components/ui/button'
+  1 | import Link from "next/link"
+> 2 | import Button from "@/components/ui/button"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function NotFoundPage() {
+  5 |   return (
+
+Import map: aliased to relative './components/ui/button' inside of [project]/
+
+Import traces:
+  #1 [Server Component]:
+    ./components/NotFoundPage/NotFoundPage.tsx
+    ./app/(auth)/preview/NotFoundPage/page.tsx
+
+  #2 [Server Component]:
+    ./components/NotFoundPage/NotFoundPage.tsx
+    ./app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_b3fb3b5f._.js:1920
+[    2887ms] [ERROR] ./components/NotFoundPage/NotFoundPage.tsx:2:1
+Module not found: Can't resolve '@/components/ui/button'
+  1 | import Link from "next/link"
+> 2 | import Button from "@/components/ui/button"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function NotFoundPage() {
+  5 |   return (
+
+Import map: aliased to relative './components/ui/button' inside of [project]/
+
+Import traces:
+  #1 [Server Component]:
+    ./components/NotFoundPage/NotFoundPage.tsx
+    ./app/(auth)/preview/NotFoundPage/page.tsx
+
+  #2 [Server Component]:
+    ./components/NotFoundPage/NotFoundPage.tsx
+    ./app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_b3fb3b5f._.js:1920
+[    3069ms] [ERROR] ./components/NotFoundPage/NotFoundPage.tsx:2:1
+Module not found: Can't resolve '@/components/ui/button'
+  1 | import Link from "next/link"
+> 2 | import Button from "@/components/ui/button"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function NotFoundPage() {
+  5 |   return (
+
+Import map: aliased to relative './components/ui/button' inside of [project]/
+
+Import traces:
+  #1 [Server Component]:
+    ./components/NotFoundPage/NotFoundPage.tsx
+    ./app/(auth)/preview/NotFoundPage/page.tsx
+
+  #2 [Server Component]:
+    ./components/NotFoundPage/NotFoundPage.tsx
+    ./app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_b3fb3b5f._.js:1920
+[    3069ms] [ERROR] ./components/NotFoundPage/NotFoundPage.tsx:2:1
+Module not found: Can't resolve '@/components/ui/button'
+  1 | import Link from "next/link"
+> 2 | import Button from "@/components/ui/button"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function NotFoundPage() {
+  5 |   return (
+
+Import map: aliased to relative './components/ui/button' inside of [project]/
+
+Import trace:
+  Server Component:
+    ./components/NotFoundPage/NotFoundPage.tsx
+    ./app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_b3fb3b5f._.js:1920

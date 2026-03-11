@@ -8,7 +8,7 @@
 
 claude
 
-/usage - Shows the usage 
+/usage - Shows the usage
 
 /init - Initialize a new CLAUDE.md file with codebase documentation.
 
@@ -17,7 +17,7 @@ for example:
 
 # The database schema is defined in the @prisma/schema.prisma file. Reference it anytime you need to understand the structure of data stored in the database.
 
-# Use comments sparingly. Only comment complex code    
+# Use comments sparingly. Only comment complex code
 
 /model - Shows the current model being used by Claude, and select which one to use for different tasks.
 
@@ -27,7 +27,7 @@ Escape - Interrupt Claude allowing to redirect or correct it.
 
 /clear - Clears the conversation history, allowing you to start fresh without any previous context.
 
-ALT+V paste in an image into the Claude console (or drag and drop it) 
+ALT+V paste in an image into the Claude console (or drag and drop it)
 
 Esc Esc : Rewind the conversation to a previous point, allowing you to go back and change the direction of the conversation or correct any mistakes.
 ```
@@ -78,7 +78,7 @@ Open the app in the browser and iterate on the styling a few times. Go for a sle
 
 ## Hooks
 
-Run a command before or after Claude does something to automate tasks and improve your workflow.
+Run a command before (PreToolUse hook) or after (PostToolUse hook) Claude does something to automate tasks and improve your workflow.
 
 Examples:
 
@@ -88,3 +88,30 @@ Examples:
 - Run tests automatically after a file is changed
 - Block file edits that add variables that don't follow the naming convention
 - Block deprecated function usage in code that Claude writes
+
+### Building a Hook
+
+1. Decide on the trigger: PreToolUse or PostToolUse
+2. Determine which type of Tool calls you want to watch for
+   (Read, Edit, Write, Bash, Glob, Grep, Task, WebFetch, WebSearch)
+
+   tip: List out the name of all the tools you have access to, bullet point list.
+
+3. Write a command that will receive the tool call
+4. If needed, command should provide feedback to Claude.
+
+## Agents
+
+Agents are a powerful way to automate complex tasks that require multiple steps and decision-making.
+They allow you to create a sequence of actions that Claude can execute autonomously, based on the goals you set.
+
+**Unit Tester Agent**: An agent that automatically generates unit tests for your codebase. You can set it up to run after every code change, ensuring that your code is always well-tested and that any issues are caught early.
+
+**Security Auditor Agent**: An agent that scans your codebase for security vulnerabilities. It can be configured to run on a regular schedule or after specific events, such as code commits or pull requests.
+
+**Documentation Agent**: An agent that generates and updates documentation for your codebase. It can analyze your code and create documentation based on the structure and comments, ensuring that your documentation is always up-to-date.
+
+**UX Reviewer Agent**: An agent that reviews the user experience of your application. It can analyze user interactions, gather feedback, and suggest improvements to enhance the overall user experience.
+
+
+

@@ -37,7 +37,7 @@ const variants: Variant[] = [
 
 const sizes: Size[] = ["sm", "md", "lg"];
 
-/** Which cancel button variant pairs well with each modal variant */
+/** Cancel button variant for each modal variant */
 const cancelVariantMap: Record<Variant, React.ComponentProps<typeof Button>["variant"]> = {
   default: "ghost",
   destructive: "ghost",
@@ -45,11 +45,23 @@ const cancelVariantMap: Record<Variant, React.ComponentProps<typeof Button>["var
   secondary: "outline",
   ghost: "outline",
   link: "ghost",
-  black: "outline",
+  black: "ghost",
   white: "ghost",
 };
 
-/** Title colour override for the destructive variant (body text stays neutral) */
+/** Confirm button variant for each modal variant — ensures a visible primary CTA */
+const confirmVariantMap: Record<Variant, React.ComponentProps<typeof Button>["variant"]> = {
+  default: "default",
+  destructive: "destructive",
+  outline: "default",
+  secondary: "default",
+  ghost: "default",
+  link: "default",
+  black: "white",
+  white: "black",
+};
+
+/** Title colour override */
 function titleClass(variant: Variant) {
   return variant === "destructive" ? "text-destructive" : undefined;
 }
@@ -66,14 +78,11 @@ function DemoModal({
   const [open, setOpen] = useState(false);
 
   const cancelVariant = cancelVariantMap[variant];
-  const closeRingClass =
-    variant === "black"
-      ? "focus-visible:ring-white dark:focus-visible:ring-black"
-      : undefined;
+  const confirmVariant = confirmVariantMap[variant];
 
   return (
     <>
-      <Button variant={variant} size="sm" onClick={() => setOpen(true)}>
+      <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
         {label}
       </Button>
 
@@ -83,7 +92,7 @@ function DemoModal({
         variant={variant}
         size={size ?? "md"}
       >
-        <ModalCloseButton onClick={() => setOpen(false)} className={closeRingClass} />
+        <ModalCloseButton onClick={() => setOpen(false)} />
         <ModalHeader>
           <ModalTitle className={titleClass(variant)}>Modal — {variant}</ModalTitle>
           <ModalDescription>
@@ -101,7 +110,7 @@ function DemoModal({
           <Button variant={cancelVariant} size="sm" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button variant={variant} size="sm" onClick={() => setOpen(false)}>
+          <Button variant={confirmVariant} size="sm" onClick={() => setOpen(false)}>
             Confirm
           </Button>
         </ModalFooter>
@@ -181,7 +190,7 @@ export default function ModalPreviewPage() {
 
       {/* Locked (no backdrop close) */}
       <Section title="Locked (disableBackdropClose)">
-        <Button variant="secondary" onClick={() => setLockedOpen(true)}>
+        <Button variant="outline" onClick={() => setLockedOpen(true)}>
           Open locked modal
         </Button>
         <Modal
@@ -208,6 +217,9 @@ export default function ModalPreviewPage() {
             </p>
           </ModalContent>
           <ModalFooter>
+            <Button variant="ghost" size="sm" onClick={() => setLockedOpen(false)}>
+              Dismiss
+            </Button>
             <Button variant="destructive" onClick={() => setLockedOpen(false)}>
               Acknowledge
             </Button>

@@ -13,7 +13,7 @@ const modalVariants = cva(
       variant: {
         default: "bg-card text-card-foreground border-border",
         destructive:
-          "bg-destructive/10 text-foreground border-destructive/40 dark:bg-destructive/20",
+          "bg-destructive/15 text-foreground border-destructive/50 dark:bg-destructive/25",
         outline:
           "bg-background text-foreground border-border shadow-md",
         secondary:
@@ -69,7 +69,7 @@ function ModalBackdrop({
       data-slot="modal-backdrop"
       aria-hidden="true"
       className={cn(
-        "fixed inset-0 z-0 bg-black/50 backdrop-blur-sm",
+        "fixed inset-0 z-0 bg-black/50 backdrop-blur-sm animate-[backdrop-in_0.15s_ease-out] motion-reduce:animate-none",
         className
       )}
       onClick={onClick}
@@ -167,7 +167,11 @@ function Modal({
         aria-labelledby={`${titleId}-title`}
         aria-describedby={`${descId}-desc`}
         tabIndex={-1}
-        className={cn(modalVariants({ variant, size }), "z-10", className)}
+        className={cn(
+          modalVariants({ variant, size }),
+          "z-10 animate-[modal-in_0.18s_ease-out] motion-reduce:animate-none",
+          className
+        )}
         {...props}
       >
         {/* Pass IDs via context so sub-components can pick them up */}
@@ -254,7 +258,9 @@ function ModalCloseButton({
       aria-label="Close modal"
       onClick={onClick}
       className={cn(
-        "absolute top-2.5 right-2.5 rounded-md p-3.5 opacity-60 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-foreground",
+        "absolute top-2.5 right-2.5 rounded-md p-3.5 opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-foreground",
+        // black variant: override ring to white so it meets WCAG 1.4.11 (3:1 contrast)
+        "[data-variant=black]_&:focus-visible:ring-white",
         className
       )}
       {...props}

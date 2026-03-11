@@ -43,4 +43,9 @@ Make a UI component according to the [name] and [summary] provided, following th
 
 - Add a preview page for the component in `app/preview/` (e.g. `app/preview/button/page.tsx`) and add the component with different variants and states to visually verify the implementation.
 - Do not add the component to any other pages until the component is fully implemented and tested.
+
+## Review the Work
+
+- **Invoke the ui-ux-playwright-reviewer** to review your work and implement suggestions where needed.
+- Iterate on the review process when needed.
   

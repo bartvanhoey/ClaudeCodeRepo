@@ -9,50 +9,54 @@
 - **Border radius**: `rounded-xl` on modals — consistent with card components
 - **Shadow**: `shadow-xl` on modals — visually appropriate elevation
 
-## Modal Component (`components/ui/modal.tsx`) — v2 review (post-fixes applied)
+## Modal Component (`components/ui/modal.tsx`) — v3 review (post-improvements applied)
 
-### Confirmed Fixed Since v1
-- `aria-labelledby` + `aria-describedby` wired via `React.useId()` — working
-- Focus trap (Tab cycle within modal) — working; keyboard Tab/Shift+Tab stays inside
-- `document.body` scroll lock when open — working
-- Close button touch target increased to `p-2.5` — measures 36×36px (up from ~28px)
-- Focus ring changed to `ring-foreground ring-offset-2` — now clearly visible
-- ghost variant: `border-border/50 shadow-sm` — boundary now visible
-- link variant: `text-foreground` — body text no longer pink
-- white variant: `shadow-2xl` — clearly separates from cream backdrop
-- Zero JS console errors across all variants
+### Confirmed Fixed Since v2 (v3)
+- **Animations**: `@keyframes modal-in` (scale 0.96→1 + translateY 6px→0, 0.18s) and `@keyframes backdrop-in` (opacity 0→1, 0.15s) defined in globals.css and applied via Tailwind `animate-[]` — working
+- **ghost Confirm**: now `data-variant="default"` (pink filled) — clear CTA hierarchy confirmed in DOM
+- **link Confirm**: now `data-variant="default"` (pink filled) — clear CTA hierarchy
+- **secondary Confirm**: now `data-variant="default"` (pink filled) — confirmed, Cancel is `ghost`
+- **black Confirm**: now `data-variant="white"` (white filled button on black bg) — confirmed, clearly visible
+- **destructive background**: `bg-destructive/15` — noticeably semi-opaque, softer than solid red
+- **black Cancel**: `ghost` variant — white text on black, readable (improvement vs previous invisible state)
+- **Return focus on close**: wired in modal.tsx via `trigger?.focus()` in scroll-lock effect cleanup
+- **Close button padding**: increased to `p-3.5` — hits ~44px touch target (p-3.5 = 14px each side + 16px icon = 44px)
 
-### Remaining Open Issues (v2)
-1. **black — ghost Cancel button invisible**: ghost button on pure black has no affordance; text nearly invisible
-2. **black — focus ring contrast**: `ring-foreground` (dark teal) on black bg is ~2.5:1, fails WCAG 1.4.11 (3:1 for UI components)
-3. **secondary — ghost Cancel low affordance**: ghost Cancel button blends into teal background
-4. **destructive — body text color**: body copy inherits `text-destructive` red; normal-size red text on light red bg likely fails WCAG AA 4.5:1
-5. **Close button mobile touch target**: 36×36px at 390px viewport — 8px short of WCAG 2.5.5 44×44px advisory minimum
-6. **Return focus on close**: focus drops to body when modal closes; should return to trigger button (WCAG 2.4.3)
-7. **outline — no shadow**: floats without elevation cue; low severity
-8. **ModalTitle does not scale with size**: `text-lg` at all sizes; lg modal could use `text-xl`
+### Remaining Open Issues (v3)
+1. **black — focus ring contrast**: `ring-foreground` (dark teal) on black bg still ~2.5:1, fails WCAG 1.4.11; `ring-white` override is in preview page but only for keyboard focus-visible state
+2. **destructive — title text in red**: `text-destructive` on the title is red against light-red bg; body text is now foreground (fixed), but title color contract should be checked
+3. **secondary — Cancel ghost barely visible**: ghost Cancel on teal bg has minimal affordance; slightly better than v2
+4. **ModalTitle does not scale with size**: `text-lg` at all sizes; lg modal could use `text-xl`
+5. **outline — no shadow**: still floats without elevation; low severity
 
-### Variant Status (v2)
-- **default**: production-ready — clean card bg, visible border+shadow, good text contrast
-- **destructive**: body text in red is a contrast concern; otherwise boundary and structure good
-- **outline**: no shadow, floats ambiguously; acceptable but weak
-- **secondary**: teal fill, dark text readable; ghost Cancel button low affordance
-- **ghost**: boundary now visible; both footer buttons are ghost-on-ghost — low affordance
-- **link**: boundary visible, text foreground — pink Confirm button acceptable
-- **black**: excellent contrast for title/body; ghost Cancel invisible; focus ring low contrast
-- **white**: shadow-2xl provides clear separation; description text teal-muted is acceptable
+### Variant Status (v3)
+- **default**: production-ready
+- **destructive**: `bg-destructive/15` bg, red title, foreground body text, red Confirm button — good
+- **outline**: no shadow — acceptable but weak
+- **secondary**: teal fill, pink Confirm — clear hierarchy; ghost Cancel is low-contrast on teal
+- **ghost**: backdrop-blur bg, pink Confirm, outline Cancel — clear hierarchy; good
+- **link**: border/shadow-sm bg, pink Confirm, ghost Cancel — good
+- **black**: black bg, white Confirm, ghost Cancel (white text) — all elements readable
+- **white**: shadow-2xl, black Confirm, ghost Cancel — good
 
-### Close Button (v2)
-- At rest: `opacity-60`, 16×16 SVG X icon, position `top-3 right-3`
-- Focus ring: rounded-md ring with offset — confirmed visible in default/ghost/white/secondary
-- On black: ring is dark teal on black — low contrast, needs `ring-white` override
-- Mobile size: 36×36px — acceptable for most use, but below WCAG 2.5.5 strict minimum
+### Close Button (v3)
+- Padding increased to `p-3.5` — 44px touch target achieved
+- `focus-visible:ring-foreground` with `focus-visible:ring-white` override for black variant in preview page
+- Position: `top-2.5 right-2.5`
+
+### Animation Implementation
+- `modal-in`: `scale(0.96) translateY(6px)` → `scale(1) translateY(0)`, 0.18s ease-out
+- `backdrop-in`: opacity 0→1, 0.15s ease-out
+- Both respect `motion-reduce:animate-none`
+- Defined in `app/globals.css` lines 183–197; referenced via Tailwind arbitrary `animate-[]` syntax
 
 ## Playwright Setup Note
 
-- Script must run from project directory (`cd ibuiltthis-app && node script.js`) so `require('playwright')` resolves local node_modules
-- Use `deviceScaleFactor: 2` or `3` on `newPage()` for crisp close-button/focus-ring crops
-- `focus-visible` CSS ONLY triggers on keyboard nav — use `keyboard.press('Tab')` then `keyboard.press('Shift+Tab')` to land focus-visible on close button; programmatic `.focus()` does NOT trigger the CSS pseudo-class in headless Chromium
+- App root is `C:/Personal/MyGitHubRepos/ClaudeCodeRepo/IbuiltThisApp/` (NOT a subdirectory)
+- Dev server at port 3000 may be a DIFFERENT app (MatchZero); always start IbuiltThis on port 3001 or 3002
+- Start with: `cd "C:/Personal/MyGitHubRepos/ClaudeCodeRepo/IbuiltThisApp" && npm run dev -- --port 3002`
+- **Stale .next cache**: Turbopack dev server can serve stale compiled chunks even after source edits — HMR does NOT always invalidate module-level constants. If `data-variant` in the DOM doesn't match the source, delete `.next/` and restart on a fresh port. Confirmed: `rm -rf .next` then new port resolves it.
+- `focus-visible` CSS ONLY triggers on keyboard nav — use `keyboard.press('Tab')` to land focus-visible; programmatic `.focus()` does NOT trigger the pseudo-class in headless Chromium
 - Chromium headless shell caches in local ms-playwright folder after first run
 
 ## Preview Page Layout
