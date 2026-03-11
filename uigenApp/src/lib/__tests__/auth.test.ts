@@ -64,6 +64,79 @@ test("createSession stores a verifiable JWT containing userId and email", async 
   expect(payload.email).toBe("alice@example.com");
 });
 
+test("createSession sets cookie with httpOnly, sameSite, and path options", async () => {
+  const setCalls: Array<[string, string, object]> = [];
+  const originalSet = cookieStore.set.bind(cookieStore);
+  cookieStore.set = (name: string, value: string, options?: object) => {
+    setCalls.push([name, value, options ?? {}]);
+    originalSet(name, value);
+  };
+
+  await createSession("user-x", "x@example.com");
+
+  expect(setCalls).toHaveLength(1);
+  const [, , options] = setCalls[0];
+  expect(options).toMatchObject({
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+  });
+
+  // Restore
+  cookieStore.set = originalSet;
+});
+
+test("createSession sets a cookie that expires ~7 days from now", async () => {
+  const before = Date.now();
+  await createSession("user-exp", "exp@example.com");
+  const after = Date.now();
+
+  const token = cookieStore._data.get("auth-token")!;
+  const { jwtVerify } = await import("jose");
+  const { payload } = await jwtVerify(token, JWT_SECRET);
+
+  const exp = (payload.exp as number) * 1000;
+  const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+
+  expect(exp).toBeGreaterThanOrEqual(before + sevenDaysMs - 1000);
+  expect(exp).toBeLessThanOrEqual(after + sevenDaysMs + 1000);
+});
+
+test("createSession overwrites any existing auth-token cookie", async () => {
+  await createSession("user-a", "a@example.com");
+  const firstToken = cookieStore._data.get("auth-token");
+
+  await createSession("user-b", "b@example.com");
+  const secondToken = cookieStore._data.get("auth-token");
+
+  expect(secondToken).not.toBe(firstToken);
+
+  const { jwtVerify } = await import("jose");
+  const { payload } = await jwtVerify(secondToken!, JWT_SECRET);
+  expect(payload.userId).toBe("user-b");
+  expect(payload.email).toBe("b@example.com");
+});
+
+test("createSession works with special characters in email", async () => {
+  await createSession("user-special", "user+tag@sub.example.co.uk");
+
+  const token = cookieStore._data.get("auth-token")!;
+  const { jwtVerify } = await import("jose");
+  const { payload } = await jwtVerify(token, JWT_SECRET);
+
+  expect(payload.email).toBe("user+tag@sub.example.co.uk");
+});
+
+test("createSession signs token with HS256 algorithm", async () => {
+  await createSession("user-alg", "alg@example.com");
+
+  const token = cookieStore._data.get("auth-token")!;
+  const [headerB64] = token.split(".");
+  const header = JSON.parse(Buffer.from(headerB64, "base64url").toString());
+
+  expect(header.alg).toBe("HS256");
+});
+
 // --- getSession ---
 
 test("getSession returns null when no cookie is present", async () => {

@@ -1,0 +1,9 @@
+ 
+  {
+    "default": true,  // Enable all rules by default
+    "MD013": false,   // Disable line length limit
+    "MD033": false,   // Allow inline HTML
+    "MD041": false,    // First line doesn't need to be heading
+    "MD003": false,    // First line doesn't need to be heading
+    "MD022": false    // First line doesn't need to be heading
+  }

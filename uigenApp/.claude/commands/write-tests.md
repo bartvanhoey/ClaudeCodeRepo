@@ -1,7 +1,7 @@
 ---
 description: Write tests for a specific component or file
+allowed-tools: Bash(npm list:*)
 ---
-
 
 Write comprehensive tests for: $ARGUMENTS
 

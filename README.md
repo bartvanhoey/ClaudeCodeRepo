@@ -1,7 +1,5 @@
 # Claude Code
 
-## Tools with Claude
-
 ![Tools with Claude Code](images/claude_tools.png)
 
 ## Most Used Claude Commands
@@ -54,27 +52,25 @@ Different versions of CLAUDE.md:
 
 ## Custom Commands
 
-## Plan Mode
+## Planning Mode
 
-You have a complex task that requires multiple steps. You want Claude to break it down into smaller, manageable steps and execute them one by one. Use Plan Mode to achieve this.
+To enable planning mode hit `SHIFT+Tab` twice You have a complex task that requires multiple steps. You want Claude to break it down into smaller, manageable steps and execute them one by one. When Plan mode is enabled, Claude can only read files and plans, no edits until you approve.
 
-## Ultrathink
+## Thinking Mode
 
-You have a complex problem that requires deep thinking and analysis. You want Claude to take its time, consider all angles, and provide a well-thought-out response. Use Ultrathink to achieve this.
+'Think' | 'Think more' | 'Think a lot' | 'Think longer' | 'Ultrathink'
+
+Planning and Thinking can be used together. When you want Claude to think more about a plan, you can use the 'Think' commands to have it iterate on the plan and come up with better solutions.
 
 ## MCP Servers
 
 What are MCP servers and how to use them with Claude?
-
-
-
 
 **Playwright:**
 
 Run the following command `claude mcp add playwright --scope project cmd /c  npx  @playwright/mcp@latest` in your terminal to install the Playwright MCP server for your project.
 
 ```bash
-
 
 
 Open the app in the browser and iterate on the styling a few times. Go for a sleek modern design with a dark theme. Do not change the Color Palette. Use the same colors but in a more modern way. Make sure to use the colors in the palette and not add any new colors. Do not change the layout of the app, just make it look better with a sleek modern design and a dark theme.
