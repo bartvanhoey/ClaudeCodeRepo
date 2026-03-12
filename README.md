@@ -121,3 +121,24 @@ They allow you to create a sequence of actions that Claude can execute autonomou
 **UX Reviewer Subagent**: A subagent that reviews the user experience of your application. It can analyze user interactions, gather feedback, and suggest improvements to enhance the overall user experience.
 
 **Code Quality Reviewer Subagent**: A subagent that reviews the quality of your code. It can analyze code for best practices, maintainability, and adherence to coding standards, providing feedback and suggestions for improvement.
+
+## Plugins
+
+What are Plugins?
+
+Plugins are extensions that add new features or enhance existing functionality in Claude. They allow you to customize and extend Claude's capabilities to better suit your workflow and specific needs.
+Examples of Plugins:
+
+- **GitHub Plugin**: Integrates GitHub with Claude, allowing you to manage issues, pull requests, and repositories directly from the Claude interface.
+- **Jira Plugin**: Connects Jira to Claude, enabling you to create, update, and track Jira issues without leaving the Claude environment.
+- **CI/CD Plugin**: Integrates with your CI/CD pipeline, allowing you to monitor
+
+```bash
+
+claude plugin uninstall <plugin-name>
+claude plugin remove <plugin-name>
+claude plugin list — see all installed plugins
+claude plugin disable <plugin-name> — disable without uninstalling
+claude plugin enable <plugin-name> — re-enable a disabled plugin
+
+```
