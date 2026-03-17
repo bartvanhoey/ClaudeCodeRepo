@@ -52,6 +52,11 @@ Different versions of CLAUDE.md:
 
 ## Useful Prompts
 
+## Skills
+
+Skills are reusable commands that you can create for Claude to perform specific tasks.
+They can be simple one-liners or complex multi-step processes. Once created, you can call a skill anytime in the conversation to have Claude execute it.
+
 ## Custom Commands
 
 ## Planning Mode
@@ -142,3 +147,19 @@ claude plugin disable <plugin-name> — disable without uninstalling
 claude plugin enable <plugin-name> — re-enable a disabled plugin
 
 ```
+
+How to install the Frontend Design Plugin from Anthropic's Plugin Store:
+
+```bash
+/plugin marketplace add anthropics/claude-code
+/plugin install frontend-design@claude-code-plugin
+
+```
+
+## Initial Permission Mode
+
+The **Initial Permission Mode** setting controls how Claude handles tool permissions at the start of each new conversation.
+
+Setting it to `bypassPermissions` means Claude will automatically allow all tool calls without prompting for approval — useful for trusted local workflows where you want uninterrupted automation.
+
+![Initial Permission Mode set to bypassPermissions](images/initial_permission_mode.png)
