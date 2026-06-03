@@ -36,13 +36,15 @@ Esc Esc : Rewind the conversation to a previous point, allowing you to go back a
 
 ## CLAUDE.md file
 
+CLAUDE.md is a markdown file that serves as a guide for Claude to understand your codebase, project structure, and any specific instructions or conventions you want it to follow. It is loaded into Claude's context when you start a conversation, allowing it to reference the information and instructions you have provided.
+
 Guides Claude through your codebase, pointing out:
 
 - Important commands
 - Architecture
 - Coding style
 
-Allows you to give Claude specific or custom directions.
+`/init` - Initializes a new CLAUDE.md file with codebase documentation. This command will prompt you with questions about your project and generate a CLAUDE.md file based on your answers. You can then edit and customize the file as needed to provide more specific instructions or information for Claude.
 
 Different versions of CLAUDE.md:
 
@@ -58,6 +60,34 @@ Skills are reusable commands that you can create for Claude to perform specific 
 They can be simple one-liners or complex multi-step processes. Once created, you can call a skill anytime in the conversation to have Claude execute it.
 
 ## Custom Commands
+
+## Managing Context
+
+When Claude's context window is full, it can lose track of important information from earlier in the conversation. Context Rot is a technique to help mitigate this issue by allowing you to summarize and condense the conversation history, keeping only the most relevant information while freeing up memory for new information.
+
+Useful commands for managing context:
+
+- `/compact` - Summarizes the conversation history, keeping only the most relevant information to maintain context while freeing up memory for new information.
+- `/clear` - Clears the conversation history, allowing you to start fresh without any previous context
+- `/rewind` - Rewind the conversation to a previous point, allowing you to go back and change the direction of the conversation or correct any mistakes.
+- `/context` - View the current conversation context, including all relevant information and details that Claude is currently aware of.
+
+Auto-compaction: Claude will automatically summarize the conversation history when it reaches a certain threshold, ensuring that it always has enough memory to work with new information while retaining the most important context.
+
+## Permission Modes
+
+### Plan Mode
+
+Claude can analyze and propose changes, but cannot execute anything. Read-only mode for planning and analysis.
+
+### Accept Edits
+
+Claude can read, write and edit files without asking.
+Still asks permission for Bash/shell commands
+
+### Bypass Permissions
+
+Claude can read, write and edit files and execute Bash/shell commands without asking. Full autonomy. Use with caution.
 
 ## Planning Mode
 
@@ -163,3 +193,56 @@ The **Initial Permission Mode** setting controls how Claude handles tool permiss
 Setting it to `bypassPermissions` means Claude will automatically allow all tool calls without prompting for approval — useful for trusted local workflows where you want uninterrupted automation.
 
 ![Initial Permission Mode set to bypassPermissions](images/initial_permission_mode.png)
+
+## WAT Framework
+
+**Agent**: The AI entity that executes the workflows and interacts with tools to accomplish tasks.
+
+**Workflows**: Markdown SOPs that define the steps and tools needed to accomplish a task. They are stored in the `workflows/` directory and serve as the instructions for the AI agent.
+
+**Tools**: Python scripts that perform specific functions, such as making API calls or processing data. They are stored in the `tools/` directory and are executed by the AI agent based on the instructions defined in the workflows.
+
+## Agentic Workflows
+
+Agentic workflows are a powerful way to automate complex tasks that require multiple steps and decision-making. They allow you to create a sequence of actions that Claude can execute autonomously, based on the goals you set. Agentic workflows that can perform a wide range of functions, from data analysis to customer support.
+
+Examples of Agentic Workflows:
+
+- **Automated Code Review Workflow**: Claude can analyze a pull request, identify potential issues, suggest improvements, and even make changes to the codebase autonomously.
+- **Automated Testing Workflow**: Claude can run tests, analyze results, and make adjustments to the code or tests as needed to ensure that everything is working correctly.
+- **Automated Deployment Workflow**: Claude can handle the entire deployment process, from building and testing to deploying and monitoring the application in production.
+- **Automated Bug Fixing Workflow**: Claude can identify bugs in the code, analyze the root cause, and implement fixes autonomously, while keeping you informed of the changes being made.
+- **Automated Feature Development Workflow**: Claude can take a feature request, break it down into smaller tasks, and implement the feature autonomously, while keeping you updated on the progress and any decisions being made.
+- **Automated Refactoring Workflow**: Claude can analyze the codebase for areas that could benefit from refactoring, suggest improvements, and make changes autonomously to improve code quality and maintainability.
+
+**WAT** stands for "Workflow Automation Tool" and is a framework for building agentic workflows. It allows you to define a series of steps that an AI agent can execute to achieve a specific goal. Each step can involve different actions, such as making API calls, processing data, or interacting with users.  
+
+**A2A** stands for "Agent-to-Agent" communication, which is a key aspect of agentic workflows. It enables different AI agents to communicate and collaborate with each other to accomplish tasks that may require multiple skills or expertise. This allows for more complex and efficient workflows, as agents can share information and delegate tasks to each other as needed.
+
+## Tools and Platforms
+
+**Trigger.dev**: A platform that provides tools and resources for building and deploying agentic workflows. It offers a range of features, including a visual workflow builder, pre-built templates, and integration with various AI models and APIs. With Trigger.dev, you can easily create and manage your agentic workflows, allowing you to automate tasks and processes in a more efficient and scalable way.
+
+**Modal**: AI infrastructure provider that allows you to run AI models in the cloud. It provides a simple interface for deploying and managing AI models, making it easier for developers to integrate AI capabilities into their applications. Modal offers features such as auto-scaling, monitoring, and logging, which help ensure that your AI models run smoothly and efficiently. With Modal, you can focus on building your applications while they handle the complexities of AI infrastructure.
+
+**Vercel**: A cloud platform for static sites and serverless functions. It provides a seamless experience for deploying and hosting web applications, making it an ideal choice for developers looking to quickly get their projects online. Vercel offers features such as automatic scaling, global CDN, and easy integration with popular frameworks like Next.js. With Vercel, you can focus on building your application while they handle the deployment and hosting aspects.
+
+**Perplexity**: An AI platform that provides access to powerful language models, including Claude. It offers a range of tools and resources for developers to build and deploy AI-powered applications. With Perplexity, you can easily integrate AI capabilities into your projects, allowing you to create more intelligent and responsive applications.
+
+**Tavily**: Connect AI Agents to the web. Real-time search, extraction and web crawling through a single secure API. Tavily allows you to access and interact with web data in real-time, making it easier to build AI applications that require up-to-date information from the web.
+
+**FireCrawl**: An AI-powered web crawling and data extraction tool. It allows you to easily gather and analyze data from websites, making it easier to build AI applications that require web data.
+
+**NanoBanana**: Nano Banana is an advanced AI image editing model that has quickly gained attention for its exceptional prompt understanding, consistent character editing, and scene preservation.Experience the future of AI image editing.
+
+**Key**: [Key](https://key.ai/) helps communities unlock their potential. It offers a unique approach to creating meaningful professional connections and fostering career development, financial wellbeing and work-life balance.
+
+**Serper**: An AI-powered search engine that provides real-time access to information from the web. It allows you to quickly find relevant information and insights, making it easier to build AI applications that require up-to-date data.
+
+## RAG - Retrieval-Augmented Generation
+
+Retrieval-Augmented Generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources.[1] With RAG,
+
+
+
+
