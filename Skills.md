@@ -20,7 +20,7 @@ Guides Claude to commit to a distinctive design direction (purpose, tone, constr
 
 [Grill with Docs by Matt Pocock](https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md)
 
-A Socratic, interview-style planning skill: it grills you on a proposed change one question at a time, checks your answers against the codebase and existing docs, and writes confirmed terminology and decisions back into `CONTEXT.md` and ADRs as you go. Best used before starting a significant change.
+A Socratic, interview-style planning skill: it grills you on a proposed change one question at a time, checks your answers against the codebase and existing docs, and writes confirmed terminology and decisions back into `CONTEXT.md` and ADRs (Architecture Decision Record)  as you go. Best used before starting a significant change.
 
 ```text
     npx skills@latest add mattpocock/skills
