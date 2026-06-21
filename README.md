@@ -10,9 +10,9 @@ Claude Code is an AI agent designed to help developers understand and work with 
 
 claude
 
-/usage - Shows the usage
-
 /init - Initialize a new CLAUDE.md file with codebase documentation.
+
+/usage - Shows the usage
 
 (Pound sign: #)  => Memory mode, allows you to save information in memory for later retrieval.
 for example:
@@ -57,6 +57,7 @@ Different versions of CLAUDE.md:
 ## Skills
 
 Skills are reusable commands that you can create for Claude to perform specific tasks.
+
 They can be simple one-liners or complex multi-step processes. Once created, you can call a skill anytime in the conversation to have Claude execute it.
 
 ## Custom Commands
