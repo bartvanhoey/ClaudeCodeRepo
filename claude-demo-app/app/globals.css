@@ -48,6 +48,7 @@
 @theme {
   --font-*: initial;
   --font-inter: Nekst, Inter, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
 
   --color-current: currentColor;
   --color-transparent: transparent;
@@ -349,4 +350,97 @@ pre {
 
 .active-tab {
   @apply bg-stroke text-black dark:bg-blackho dark:text-white;
+}
+
+/* Products: CSS material swatches standing in for product photography */
+.swatch-wood {
+  background-image: repeating-linear-gradient(
+    100deg,
+    #7c4d2c 0px,
+    #93613a 5px,
+    #8a5a35 10px,
+    #9c6b41 16px,
+    #7c4d2c 22px
+  );
+}
+.dark .swatch-wood {
+  background-image: repeating-linear-gradient(
+    100deg,
+    #4a2f1c 0px,
+    #5c3c24 5px,
+    #533421 10px,
+    #614025 16px,
+    #4a2f1c 22px
+  );
+}
+
+.swatch-linen {
+  background-color: #ede7da;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.5) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 0 2px, transparent 2px 5px);
+}
+.dark .swatch-linen {
+  background-color: #3a3a30;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.2) 0 2px, transparent 2px 5px);
+}
+
+.swatch-ceramic {
+  background-image: radial-gradient(circle at 30% 28%, #fdfaf5, #e4d9c6 60%, #cdbb9e 100%);
+}
+.dark .swatch-ceramic {
+  background-image: radial-gradient(circle at 30% 28%, #4a473e, #38362f 60%, #2a2823 100%);
+}
+
+.swatch-rattan {
+  background-color: #c9a06b;
+  background-image:
+    repeating-linear-gradient(60deg, rgba(255, 255, 255, 0.25) 0 3px, transparent 3px 8px),
+    repeating-linear-gradient(-60deg, rgba(60, 35, 10, 0.25) 0 3px, transparent 3px 8px);
+}
+.dark .swatch-rattan {
+  background-color: #6b4f30;
+  background-image:
+    repeating-linear-gradient(60deg, rgba(255, 255, 255, 0.08) 0 3px, transparent 3px 8px),
+    repeating-linear-gradient(-60deg, rgba(0, 0, 0, 0.25) 0 3px, transparent 3px 8px);
+}
+
+.swatch-marble {
+  background-image:
+    linear-gradient(125deg, transparent 40%, rgba(120, 120, 115, 0.45) 41%, transparent 43%),
+    linear-gradient(95deg, transparent 60%, rgba(150, 150, 140, 0.35) 61%, transparent 63%),
+    linear-gradient(135deg, #f7f5f1, #e9e5dd);
+}
+.dark .swatch-marble {
+  background-image:
+    linear-gradient(125deg, transparent 40%, rgba(0, 0, 0, 0.35) 41%, transparent 43%),
+    linear-gradient(95deg, transparent 60%, rgba(0, 0, 0, 0.25) 61%, transparent 63%),
+    linear-gradient(135deg, #3d3d3a, #2c2c2a);
+}
+
+.swatch-brass {
+  background-image: linear-gradient(135deg, #d8b876 0%, #8a6a2f 35%, #e2c98a 55%, #7c5e29 80%, #c9a35e 100%);
+}
+.dark .swatch-brass {
+  background-image: linear-gradient(135deg, #a98a4c 0%, #5c481f 35%, #b39a5e 55%, #4a3a18 80%, #93783f 100%);
+}
+
+.swatch-cotton {
+  background-color: #f1ece3;
+  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.08) 1px, transparent 1.5px);
+  background-size: 7px 7px;
+}
+.dark .swatch-cotton {
+  background-color: #34332c;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 1.5px);
+  background-size: 7px 7px;
+}
+
+.swatch-glass {
+  background-image: linear-gradient(160deg, #eef6f5 0%, #d7ebe8 40%, #c3dedb 70%, #eef6f5 100%);
+}
+.dark .swatch-glass {
+  background-image: linear-gradient(160deg, #2c3a39 0%, #243130 40%, #1d2827 70%, #2c3a39 100%);
 }
