@@ -2,10 +2,10 @@ import Signup from "@/components/Auth/Signup";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sign Up Page - Noris SaaS Boilerplate",
+  title: "Sign Up Page - Solid SaaS Boilerplate",
 
   // other metadata
-  description: "This is Sign Up page for Noris Pro"
+  description: "This is Sign Up page for Solid Pro"
 };
 
 export default function Register() {

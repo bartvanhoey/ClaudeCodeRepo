@@ -2,10 +2,10 @@ import SidebarLink from "@/components/Docs/SidebarLink";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Docs Page - Noris SaaS Boilerplate",
+  title: "Docs Page - Solid SaaS Boilerplate",
 
   // other metadata
-  description: "This is Docs page for Noris Pro"
+  description: "This is Docs page for Solid Pro"
 };
 
 export default function DocsPage() {
