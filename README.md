@@ -282,21 +282,17 @@ Examples of Plugins:
 - **CI/CD Plugin**: Integrates with your CI/CD pipeline, allowing you to monitor
 
 ```bash
+# Add a plugin marketplace
+/plugin marketplace add <github-url>
 
-claude plugin uninstall <plugin-name>
-claude plugin remove <plugin-name>
-claude plugin list — see all installed plugins
-claude plugin disable <plugin-name> — disable without uninstalling
-claude plugin enable <plugin-name> — re-enable a disabled plugin
+# Install a plugin from the marketplace
+/plugin
 
-```
+# Reload plugins after install or update
+/reload-plugins
 
-How to install the Frontend Design Plugin from Anthropic's Plugin Store:
-
-```bash
-/plugin marketplace add anthropics/claude-code
-/plugin install frontend-design@claude-code-plugin
-
+# Update a marketplace source
+/plugin marketplace update <marketplace-name>
 ```
 
 ## Initial Permission Mode
