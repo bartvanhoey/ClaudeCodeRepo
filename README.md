@@ -1,5 +1,7 @@
 # Claude Code
 
+[![Validate README](https://github.com/bartvanhoey/ClaudeCodeRepo/actions/workflows/validate-readme.yml/badge.svg)](https://github.com/bartvanhoey/ClaudeCodeRepo/actions/workflows/validate-readme.yml)
+
 Claude Code is an AI agent designed to help developers understand and work with codebases more efficiently. It can read, edit, and write code, as well as execute commands and interact with various tools to assist you in your development workflow.
 
 > This README is a reference guide covering Claude Code's commands, configuration, and concepts — from slash commands and keyboard shortcuts to hooks, MCP servers, subagents, and agentic workflows. Use the table of contents to jump to any topic.
