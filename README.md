@@ -4,41 +4,57 @@ Claude Code is an AI agent designed to help developers understand and work with 
 
 ![Tools with Claude Code](images/claude_tools.png)
 
+## Table of Contents
+
+- [Most Used Claude Commands](#most-used-claude-commands)
+- [CLAUDE.md file](#claudemd-file)
+- [Skills](#skills)
+- [Managing Context](#managing-context)
+- [Permission Modes](#permission-modes)
+- [Planning Mode](#planning-mode)
+- [Thinking Mode](#thinking-mode)
+- [MCP Servers](#mcp-servers)
+- [Hooks](#hooks)
+- [Subagents](#subagents)
+- [Scheduled Tasks](#scheduled-tasks)
+- [Marketplace and Plugins](#marketplace-and-plugins)
+- [Initial Permission Mode](#initial-permission-mode)
+- [WAT Framework (Workflows, Agent, Tools)](#wat-framework-workflows-agent-tools)
+- [Agentic Workflows](#agentic-workflows)
+- [Tools and Platforms](#tools-and-platforms)
+- [RAG - Retrieval-Augmented Generation](#rag---retrieval-augmented-generation)
+
 ## Most Used Claude Commands
 
-```bash
+Start Claude Code by running `claude` in your terminal.
 
-claude
+### Slash Commands
 
-/init - Initialize a new CLAUDE.md file with codebase documentation.
+| Command | Description |
+|---------|-------------|
+| `/init` | Initialize a new CLAUDE.md file with codebase documentation |
+| `/usage` | Show token usage for the current session |
+| `/model` | Show the current model and switch to a different one |
+| `/compact` | Summarize conversation history to free up context |
+| `/clear` | Clear conversation history and start fresh |
 
-/usage - Shows the usage
+### Special Prefixes
 
-(Pound sign: #)  => Memory mode, allows you to save information in memory for later retrieval.
-for example:
+| Prefix | Description |
+|--------|-------------|
+| `#` | Memory mode — saves information for later retrieval (e.g. `# Use snake_case for all variable names`) |
+| `!` | Run a shell command without a permission prompt (e.g. `! npm test`) — use with caution |
+| `&` | Run a command in the background without waiting for it to finish — use with caution |
+| `@` | Reference a specific file or line (e.g. `@src/auth.ts:L42`) |
 
-# The database schema is defined in the @prisma/schema.prisma file. Reference it anytime you need to understand the structure of data stored in the database.
+### Keyboard Shortcuts
 
-# Use comments sparingly. Only comment complex code
-
-! run a command in the terminal without asking for permission. Use with caution.
-
-& add & after a command to run it in the background without waiting for it to finish. Use with caution.
-
-@ add @src/auth.ths:L42 to a command to specify the file path for the command to operate on. 
-
-/model - Shows the current model being used by Claude, and select which one to use for different tasks.
-
-Escape - Interrupt Claude allowing to redirect or correct it.
-
-/compact - Summarizes the conversation history, keeping only the most relevant information to maintain context while freeing up memory for new information.
-
-/clear - Clears the conversation history, allowing you to start fresh without any previous context.
-
-ALT+V paste in an image into the Claude console (or drag and drop it)
-
-Esc Esc : Rewind the conversation to a previous point, allowing you to go back and change the direction of the conversation or correct any mistakes.
-```
+| Shortcut | Description |
+|----------|-------------|
+| `Escape` | Interrupt Claude mid-response to redirect or correct it |
+| `Esc Esc` | Rewind the conversation to a previous point |
+| `Alt+V` | Paste an image into the Claude console (or drag and drop) |
+| `Shift+Tab` | Cycle through permission modes (default → accept edits → plan → auto) |
 
 ## CLAUDE.md file
 
@@ -79,27 +95,14 @@ Auto-compaction: Claude will automatically summarize the conversation history wh
 
 ## Permission Modes
 
-### Modes
+Use `Shift+Tab` to cycle through modes.
 
-`SHIFT+Tab` to switch between modes.
-
-default: ask before every edit
-accept edits: Claude can read, write and edit files without asking. Still asks permission for Bash/shell commands.
-plan: analyze and propose changes, but cannot execute anything. Read-only mode for planning and analysis.
-auto: Claude decides what is safe. can read, write and edit files and execute Bash/shell commands without asking. Full autonomy. Use with caution.
-
-### Accept Edits
-
-Claude can read, write and edit files without asking.
-Still asks permission for Bash/shell commands
-
-### Bypass Permissions
-
-Claude can read, write and edit files and execute Bash/shell commands without asking. Full autonomy. Use with caution.
-
-## Planning Mode
-
-To enable planning mode hit `SHIFT+Tab`  You have a complex task that requires multiple steps. You want Claude to break it down into smaller, manageable steps and execute them one by one. When Plan mode is enabled, Claude can only read files and plans, no edits until you approve.
+| Mode | What Claude can do |
+|------|--------------------|
+| **default** | Asks before every file edit or shell command |
+| **accept edits** | Reads, writes, and edits files without asking. Still prompts for shell commands |
+| **plan** | Read-only — analyzes and proposes changes but cannot execute anything until you approve |
+| **auto** | Full autonomy — reads, writes, edits, and runs shell commands without prompting. Use with caution |
 
 ## Thinking Mode
 
@@ -175,14 +178,49 @@ Examples:
 
 ### Building a Hook
 
-1. Decide on the trigger: PreToolUse or PostToolUse
-2. Determine which type of Tool calls you want to watch for
-   (Read, Edit, Write, Bash, Glob, Grep, Task, WebFetch, WebSearch)
+1. Decide on the trigger: `PreToolUse` or `PostToolUse`
+2. Determine which tool calls you want to watch for: `Read`, `Edit`, `Write`, `Bash`, `Glob`, `Grep`, `Task`, `WebFetch`, `WebSearch`
+3. Write a shell command to run — it receives tool call details via environment variables
+4. If needed, output feedback to stdout so Claude can see it
 
-   tip: List out the name of all the tools you have access to, bullet point list.
+Hooks are configured in `.claude/settings.json`:
 
-3. Write a command that will receive the tool call
-4. If needed, command should provide feedback to Claude.
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write \"$CLAUDE_FILE_PATH\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/check-naming-conventions.js \"$CLAUDE_FILE_PATH\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Key environment variables available in hook commands:
+
+| Variable | Description |
+|----------|-------------|
+| `$CLAUDE_FILE_PATH` | Path of the file being read/edited/written |
+| `$CLAUDE_TOOL_NAME` | Name of the tool that fired the hook |
+| `$CLAUDE_TOOL_INPUT` | JSON-encoded input to the tool |
 
 ## Subagents
 
@@ -224,7 +262,7 @@ Claude Code offers three ways to schedule automated tasks:
 
 ### Cloud Routines
 
-Released April 2026. Routines run on Anthropic's infrastructure — so they keep working when your laptop is closed.
+Routines run on Anthropic's infrastructure — so they keep working when your laptop is closed.
 
 - Anthropic clones a fresh copy of your **GitHub repo** and runs the agent against it
 - No access to local files, `.env`, or uncommitted changes
@@ -262,21 +300,17 @@ Examples of Plugins:
 - **CI/CD Plugin**: Integrates with your CI/CD pipeline, allowing you to monitor
 
 ```bash
+# Add a plugin marketplace
+/plugin marketplace add <github-url>
 
-claude plugin uninstall <plugin-name>
-claude plugin remove <plugin-name>
-claude plugin list — see all installed plugins
-claude plugin disable <plugin-name> — disable without uninstalling
-claude plugin enable <plugin-name> — re-enable a disabled plugin
+# Install a plugin from the marketplace
+/plugin
 
-```
+# Reload plugins after install or update
+/reload-plugins
 
-How to install the Frontend Design Plugin from Anthropic's Plugin Store:
-
-```bash
-/plugin marketplace add anthropics/claude-code
-/plugin install frontend-design@claude-code-plugin
-
+# Update a marketplace source
+/plugin marketplace update <marketplace-name>
 ```
 
 ## Initial Permission Mode
@@ -330,12 +364,35 @@ Examples of Agentic Workflows:
 
 **FireCrawl**: An AI-powered web crawling and data extraction tool. It allows you to easily gather and analyze data from websites, making it easier to build AI applications that require web data.
 
-**NanoBanana**: Nano Banana is an advanced AI image editing model that has quickly gained attention for its exceptional prompt understanding, consistent character editing, and scene preservation.Experience the future of AI image editing.
-
-**Key**: [Key](https://key.ai/) helps communities unlock their potential. It offers a unique approach to creating meaningful professional connections and fostering career development, financial wellbeing and work-life balance.
-
 **Serper**: An AI-powered search engine that provides real-time access to information from the web. It allows you to quickly find relevant information and insights, making it easier to build AI applications that require up-to-date data.
 
 ## RAG - Retrieval-Augmented Generation
 
-Retrieval-Augmented Generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources.[1] With RAG,
+Retrieval-Augmented Generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources. With RAG, the model doesn't rely solely on its training data — it fetches relevant context at query time and uses it to ground its response.
+
+### How it works
+
+```text
+User query ──► Retriever ──► Relevant documents
+                                    │
+                                    ▼
+                             LLM + context ──► Answer
+```
+
+1. A query comes in
+2. A retriever searches a knowledge base (vector DB, search index, etc.) for relevant chunks
+3. Those chunks are injected into the LLM's prompt as context
+4. The LLM generates an answer grounded in the retrieved content
+
+### Why it matters for Claude
+
+RAG lets you connect Claude to your own data — internal docs, codebases, support tickets, databases — without fine-tuning. It keeps answers current (no training cutoff), reduces hallucination on domain-specific topics, and lets you control exactly what context Claude sees.
+
+### Common tools
+
+| Tool | Role |
+|------|------|
+| `pgvector` / `Pinecone` / `Qdrant` | Vector database for storing embeddings |
+| `LangChain` / `LlamaIndex` | Orchestration frameworks |
+| `Tavily` / `Serper` | Real-time web retrieval |
+| Claude API | LLM that reasons over retrieved context |
