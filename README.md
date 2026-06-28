@@ -38,7 +38,7 @@ Claude Code is an AI agent designed to help developers understand and work with 
   - [Agentic Workflows](#agentic-workflows)
   - [Tools and Platforms](#tools-and-platforms)
   - [RAG - Retrieval-Augmented Generation](#rag---retrieval-augmented-generation)
-    - [How it works](#how-it-works-1)
+    - [How RAG works](#how-rag-works)
     - [Why it matters for Claude](#why-it-matters-for-claude)
     - [Common tools](#common-tools)
 
@@ -388,7 +388,7 @@ Examples of Agentic Workflows:
 
 Retrieval-Augmented Generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources. With RAG, the model doesn't rely solely on its training data — it fetches relevant context at query time and uses it to ground its response.
 
-### How it works
+### How RAG works
 
 ```text
 User query ──► Retriever ──► Relevant documents
