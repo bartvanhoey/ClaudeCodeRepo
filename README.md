@@ -354,4 +354,31 @@ Examples of Agentic Workflows:
 
 ## RAG - Retrieval-Augmented Generation
 
-Retrieval-Augmented Generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources.[1] With RAG,
+Retrieval-Augmented Generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources. With RAG, the model doesn't rely solely on its training data — it fetches relevant context at query time and uses it to ground its response.
+
+### How it works
+
+```text
+User query ──► Retriever ──► Relevant documents
+                                    │
+                                    ▼
+                             LLM + context ──► Answer
+```
+
+1. A query comes in
+2. A retriever searches a knowledge base (vector DB, search index, etc.) for relevant chunks
+3. Those chunks are injected into the LLM's prompt as context
+4. The LLM generates an answer grounded in the retrieved content
+
+### Why it matters for Claude
+
+RAG lets you connect Claude to your own data — internal docs, codebases, support tickets, databases — without fine-tuning. It keeps answers current (no training cutoff), reduces hallucination on domain-specific topics, and lets you control exactly what context Claude sees.
+
+### Common tools
+
+| Tool | Role |
+|------|------|
+| `pgvector` / `Pinecone` / `Qdrant` | Vector database for storing embeddings |
+| `LangChain` / `LlamaIndex` | Orchestration frameworks |
+| `Tavily` / `Serper` | Real-time web retrieval |
+| Claude API | LLM that reasons over retrieved context |
