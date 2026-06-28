@@ -262,7 +262,7 @@ Claude Code offers three ways to schedule automated tasks:
 
 ### Cloud Routines
 
-Released April 2026. Routines run on Anthropic's infrastructure — so they keep working when your laptop is closed.
+Routines run on Anthropic's infrastructure — so they keep working when your laptop is closed.
 
 - Anthropic clones a fresh copy of your **GitHub repo** and runs the agent against it
 - No access to local files, `.env`, or uncommitted changes
