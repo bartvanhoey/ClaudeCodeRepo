@@ -178,14 +178,49 @@ Examples:
 
 ### Building a Hook
 
-1. Decide on the trigger: PreToolUse or PostToolUse
-2. Determine which type of Tool calls you want to watch for
-   (Read, Edit, Write, Bash, Glob, Grep, Task, WebFetch, WebSearch)
+1. Decide on the trigger: `PreToolUse` or `PostToolUse`
+2. Determine which tool calls you want to watch for: `Read`, `Edit`, `Write`, `Bash`, `Glob`, `Grep`, `Task`, `WebFetch`, `WebSearch`
+3. Write a shell command to run — it receives tool call details via environment variables
+4. If needed, output feedback to stdout so Claude can see it
 
-   tip: List out the name of all the tools you have access to, bullet point list.
+Hooks are configured in `.claude/settings.json`:
 
-3. Write a command that will receive the tool call
-4. If needed, command should provide feedback to Claude.
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write \"$CLAUDE_FILE_PATH\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/check-naming-conventions.js \"$CLAUDE_FILE_PATH\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Key environment variables available in hook commands:
+
+| Variable | Description |
+|----------|-------------|
+| `$CLAUDE_FILE_PATH` | Path of the file being read/edited/written |
+| `$CLAUDE_TOOL_NAME` | Name of the tool that fired the hook |
+| `$CLAUDE_TOOL_INPUT` | JSON-encoded input to the tool |
 
 ## Subagents
 
