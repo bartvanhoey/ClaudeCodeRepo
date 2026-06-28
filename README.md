@@ -26,39 +26,35 @@ Claude Code is an AI agent designed to help developers understand and work with 
 
 ## Most Used Claude Commands
 
-```bash
+Start Claude Code by running `claude` in your terminal.
 
-claude
+### Slash Commands
 
-/init - Initialize a new CLAUDE.md file with codebase documentation.
+| Command | Description |
+|---------|-------------|
+| `/init` | Initialize a new CLAUDE.md file with codebase documentation |
+| `/usage` | Show token usage for the current session |
+| `/model` | Show the current model and switch to a different one |
+| `/compact` | Summarize conversation history to free up context |
+| `/clear` | Clear conversation history and start fresh |
 
-/usage - Shows the usage
+### Special Prefixes
 
-(Pound sign: #)  => Memory mode, allows you to save information in memory for later retrieval.
-for example:
+| Prefix | Description |
+|--------|-------------|
+| `#` | Memory mode — saves information for later retrieval (e.g. `# Use snake_case for all variable names`) |
+| `!` | Run a shell command without a permission prompt (e.g. `! npm test`) — use with caution |
+| `&` | Run a command in the background without waiting for it to finish — use with caution |
+| `@` | Reference a specific file or line (e.g. `@src/auth.ts:L42`) |
 
-# The database schema is defined in the @prisma/schema.prisma file. Reference it anytime you need to understand the structure of data stored in the database.
+### Keyboard Shortcuts
 
-# Use comments sparingly. Only comment complex code
-
-! run a command in the terminal without asking for permission. Use with caution.
-
-& add & after a command to run it in the background without waiting for it to finish. Use with caution.
-
-@ add @src/auth.ths:L42 to a command to specify the file path for the command to operate on. 
-
-/model - Shows the current model being used by Claude, and select which one to use for different tasks.
-
-Escape - Interrupt Claude allowing to redirect or correct it.
-
-/compact - Summarizes the conversation history, keeping only the most relevant information to maintain context while freeing up memory for new information.
-
-/clear - Clears the conversation history, allowing you to start fresh without any previous context.
-
-ALT+V paste in an image into the Claude console (or drag and drop it)
-
-Esc Esc : Rewind the conversation to a previous point, allowing you to go back and change the direction of the conversation or correct any mistakes.
-```
+| Shortcut | Description |
+|----------|-------------|
+| `Escape` | Interrupt Claude mid-response to redirect or correct it |
+| `Esc Esc` | Rewind the conversation to a previous point |
+| `Alt+V` | Paste an image into the Claude console (or drag and drop) |
+| `Shift+Tab` | Cycle through permission modes (default → accept edits → plan → auto) |
 
 ## CLAUDE.md file
 
