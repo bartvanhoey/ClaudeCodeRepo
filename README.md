@@ -346,10 +346,6 @@ Examples of Agentic Workflows:
 
 **FireCrawl**: An AI-powered web crawling and data extraction tool. It allows you to easily gather and analyze data from websites, making it easier to build AI applications that require web data.
 
-**NanoBanana**: Nano Banana is an advanced AI image editing model that has quickly gained attention for its exceptional prompt understanding, consistent character editing, and scene preservation.Experience the future of AI image editing.
-
-**Key**: [Key](https://key.ai/) helps communities unlock their potential. It offers a unique approach to creating meaningful professional connections and fostering career development, financial wellbeing and work-life balance.
-
 **Serper**: An AI-powered search engine that provides real-time access to information from the web. It allows you to quickly find relevant information and insights, making it easier to build AI applications that require up-to-date data.
 
 ## RAG - Retrieval-Augmented Generation
