@@ -95,27 +95,14 @@ Auto-compaction: Claude will automatically summarize the conversation history wh
 
 ## Permission Modes
 
-### Modes
+Use `Shift+Tab` to cycle through modes.
 
-`SHIFT+Tab` to switch between modes.
-
-default: ask before every edit
-accept edits: Claude can read, write and edit files without asking. Still asks permission for Bash/shell commands.
-plan: analyze and propose changes, but cannot execute anything. Read-only mode for planning and analysis.
-auto: Claude decides what is safe. can read, write and edit files and execute Bash/shell commands without asking. Full autonomy. Use with caution.
-
-### Accept Edits
-
-Claude can read, write and edit files without asking.
-Still asks permission for Bash/shell commands
-
-### Bypass Permissions
-
-Claude can read, write and edit files and execute Bash/shell commands without asking. Full autonomy. Use with caution.
-
-## Planning Mode
-
-To enable planning mode hit `SHIFT+Tab`  You have a complex task that requires multiple steps. You want Claude to break it down into smaller, manageable steps and execute them one by one. When Plan mode is enabled, Claude can only read files and plans, no edits until you approve.
+| Mode | What Claude can do |
+|------|--------------------|
+| **default** | Asks before every file edit or shell command |
+| **accept edits** | Reads, writes, and edits files without asking. Still prompts for shell commands |
+| **plan** | Read-only — analyzes and proposes changes but cannot execute anything until you approve |
+| **auto** | Full autonomy — reads, writes, edits, and runs shell commands without prompting. Use with caution |
 
 ## Thinking Mode
 
