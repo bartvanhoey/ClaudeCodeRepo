@@ -21,6 +21,12 @@ for example:
 
 # Use comments sparingly. Only comment complex code
 
+! run a command in the terminal without asking for permission. Use with caution.
+
+& add & after a command to run it in the background without waiting for it to finish. Use with caution.
+
+@ add @src/auth.ths:L42 to a command to specify the file path for the command to operate on. 
+
 /model - Shows the current model being used by Claude, and select which one to use for different tasks.
 
 Escape - Interrupt Claude allowing to redirect or correct it.
@@ -52,15 +58,11 @@ Different versions of CLAUDE.md:
 - CLAUDE.local.md : Personal version of CLAUDE.md, not committed to source control, for your own notes and directions to Claude.
 - ~/.claude/CLAUDE.md : Global version of CLAUDE.md, not committed to source control, for general directions to Claude across all projects.
 
-## Useful Prompts
-
 ## Skills
 
 Skills are reusable commands that you can create for Claude to perform specific tasks.
 
 They can be simple one-liners or complex multi-step processes. Once created, you can call a skill anytime in the conversation to have Claude execute it.
-
-## Custom Commands
 
 ## Managing Context
 
@@ -77,9 +79,14 @@ Auto-compaction: Claude will automatically summarize the conversation history wh
 
 ## Permission Modes
 
-### Plan Mode
+### Modes
 
-Claude can analyze and propose changes, but cannot execute anything. Read-only mode for planning and analysis.
+`SHIFT+Tab` to switch between modes.
+
+default: ask before every edit
+accept edits: Claude can read, write and edit files without asking. Still asks permission for Bash/shell commands.
+plan: analyze and propose changes, but cannot execute anything. Read-only mode for planning and analysis.
+auto: Claude decides what is safe. can read, write and edit files and execute Bash/shell commands without asking. Full autonomy. Use with caution.
 
 ### Accept Edits
 
@@ -92,7 +99,7 @@ Claude can read, write and edit files and execute Bash/shell commands without as
 
 ## Planning Mode
 
-To enable planning mode hit `SHIFT+Tab` twice You have a complex task that requires multiple steps. You want Claude to break it down into smaller, manageable steps and execute them one by one. When Plan mode is enabled, Claude can only read files and plans, no edits until you approve.
+To enable planning mode hit `SHIFT+Tab`  You have a complex task that requires multiple steps. You want Claude to break it down into smaller, manageable steps and execute them one by one. When Plan mode is enabled, Claude can only read files and plans, no edits until you approve.
 
 ## Thinking Mode
 
@@ -102,21 +109,60 @@ Planning and Thinking can be used together. When you want Claude to think more a
 
 ## MCP Servers
 
-What are MCP servers and how to use them with Claude?
+**MCP (Model Context Protocol) servers** are plugins that give AI assistants like Claude access to external tools and data.
 
-**Playwright:**
+### The core idea
 
-Run the following command `claude mcp add playwright --scope project cmd /c  npx  @playwright/mcp@latest` in your terminal to install the Playwright MCP server for your project.
+By default, Claude only knows what's in the conversation. MCP servers extend that by letting Claude call out to real systems — databases, APIs, file systems, calendars, etc.
+
+### How it works
+
+```text
+
+You ──► Claude ──► MCP Server ──► External System
+                  (the bridge)     (GitHub, DB, files...)
+```
+
+1. You ask Claude something
+2. Claude calls an MCP server (like a function call)
+3. The server fetches/does the real work
+4. Claude gets the result back and answers you
+
+### Real examples
+
+| MCP Server | What it gives Claude |
+|------------|---------------------|
+| `filesystem` | Read/write local files |
+| `github` | Browse repos, create PRs |
+| `google-calendar` | Check your schedule |
+| `sqlite` | Query a database |
+| `fetch` | Fetch web pages |
+
+### Why it matters
+
+Without MCP: Claude can only reason about things you paste into the chat.
+
+With MCP: Claude can *act* — look things up, take actions, connect to your actual systems.
+
+Think of MCP servers as **USB ports for AI** — a standard way to plug in capabilities without rebuilding the AI each time.
+
+### Installing an MCP server
 
 ```bash
+# Add an MCP server to your project
+claude mcp add playwright --scope project cmd /c npx @playwright/mcp@latest
 
+# List installed MCP servers
+claude mcp list
 
-Open the app in the browser and iterate on the styling a few times. Go for a sleek modern design with a dark theme. Do not change the Color Palette. Use the same colors but in a more modern way. Make sure to use the colors in the palette and not add any new colors. Do not change the layout of the app, just make it look better with a sleek modern design and a dark theme.
+# Remove an MCP server
+claude mcp remove <server-name>
 ```
 
 ## Hooks
 
-Run a command before (PreToolUse hook) or after (PostToolUse hook) Claude does something to automate tasks and improve your workflow.
+  Hooks run your own scripts on events: before a tool call, after a response, on session start. Use them to enforce rules, log activity, or inject
+  context. Run /hooks to see what fires when.
 
 Examples:
 
@@ -140,25 +186,71 @@ Examples:
 
 ## Subagents
 
-Subagents are a powerful way to automate complex tasks that require multiple steps and decision-making.
-They allow you to create a sequence of actions that Claude can execute autonomously, based on the goals you set.
+Subagents are agents spawned by the main agent to handle delegated or parallel subtasks. Each subagent starts fresh with its own isolated context and a limited set of tools, keeping it focused on one job.
 
-- subagents have their own isolated context window
-- subagents can be highly specialized for specific tasks
-- subagents can run in parallel to handle multiple tasks at once
-- subagents work with a limited set of tools to ensure they stay focused on their specific task
+- Own isolated context window — no shared state with the parent
+- Highly specialized for a specific task
+- Can run in parallel to handle multiple tasks at once
+- Work with a limited set of tools to stay focused
 
-**Unit Tester Subagent**: A subagent that automatically generates unit tests for your codebase. You can set it up to run after every code change, ensuring that your code is always well-tested and that any issues are caught early.
+**How they're triggered:**
 
-**Security Auditor Subagent**: A subagent that scans your codebase for security vulnerabilities. It can be configured to run on a regular schedule or after specific events, such as code commits or pull requests.
+| Trigger | How |
+|---------|-----|
+| Explicit request | You ask Claude to use a subagent for a specific task |
+| Claude decides | Claude spawns one autonomously when a task benefits from delegation or parallelism |
+| Hooks | A PostToolUse hook fires a subagent automatically after an event (e.g. file edited) |
+| Scheduled tasks | A cron job or Cloud Routine triggers a subagent on a schedule (e.g. nightly security scan) |
 
-**Documentation Subagent**: A subagent that generates and updates documentation for your codebase. It can analyze your code and create documentation based on the structure and comments, ensuring that your documentation is always up-to-date.
+**Examples:**
 
-**UX Reviewer Subagent**: A subagent that reviews the user experience of your application. It can analyze user interactions, gather feedback, and suggest improvements to enhance the overall user experience.
+| Subagent | What it does |
+|----------|-------------|
+| Unit Tester | Generates unit tests after every code change |
+| Security Auditor | Scans for vulnerabilities on commits or PRs |
+| Documentation | Generates and keeps docs up to date |
+| UX Reviewer | Reviews user experience and suggests improvements |
+| Code Quality | Checks for best practices and maintainability |
 
-**Code Quality Reviewer Subagent**: A subagent that reviews the quality of your code. It can analyze code for best practices, maintainability, and adherence to coding standards, providing feedback and suggestions for improvement.
+## Scheduled Tasks
 
-## Plugins
+Claude Code offers three ways to schedule automated tasks:
+
+| Method | Where it runs | Local files? | Machine must be on? |
+|--------|--------------|-------------|---------------------|
+| `/loop` | Local session | Yes | Yes |
+| Desktop tasks | Your machine | Yes | Yes |
+| Cloud Routines | Anthropic's servers | No | No |
+
+### Cloud Routines
+
+Released April 2026. Routines run on Anthropic's infrastructure — so they keep working when your laptop is closed.
+
+- Anthropic clones a fresh copy of your **GitHub repo** and runs the agent against it
+- No access to local files, `.env`, or uncommitted changes
+- Triggers: **schedule** (cron), **API call**, or **GitHub events** (e.g. PR opened)
+- Runs fully autonomously — no permission prompts
+- Uses your subscription quota
+
+```bash
+/schedule "run a security audit" every day at 2am
+/schedule list    # see all scheduled routines
+/schedule delete  # remove a routine
+```
+
+### Desktop Tasks
+
+Run on your local machine — use these when you need access to local files or tools not in your repo.
+
+### /loop
+
+Repeats a prompt on an interval for the duration of the current session only.
+
+```bash
+/loop 20m /code-review   # re-run /code-review every 20 minutes
+```
+
+## Marketplace and Plugins
 
 What are Plugins?
 
@@ -195,17 +287,21 @@ Setting it to `bypassPermissions` means Claude will automatically allow all tool
 
 ![Initial Permission Mode set to bypassPermissions](images/initial_permission_mode.png)
 
-## WAT Framework
+## WAT Framework (Workflows, Agent, Tools)
 
-**Agent**: The AI entity that executes the workflows and interacts with tools to accomplish tasks.
+WAT is a structure for building agentic AI systems with three layers that work together:
 
-**Workflows**: Markdown SOPs that define the steps and tools needed to accomplish a task. They are stored in the `workflows/` directory and serve as the instructions for the AI agent.
+- **Workflows** — Markdown files with step-by-step instructions for a task. Stored in the `workflows/` directory.
+- **Agent** — The AI (Claude) that reads the workflow, reasons about it, and decides what to do next.
+- **Tools** — Python scripts that do the actual work (API calls, data processing, etc.). Stored in the `tools/` directory.
 
-**Tools**: Python scripts that perform specific functions, such as making API calls or processing data. They are stored in the `tools/` directory and are executed by the AI agent based on the instructions defined in the workflows.
+```
+Workflow (instructions) ──► Agent (reasons) ──► Tools (executes)
+```
 
 ## Agentic Workflows
 
-Agentic workflows are a powerful way to automate complex tasks that require multiple steps and decision-making. They allow you to create a sequence of actions that Claude can execute autonomously, based on the goals you set. Agentic workflows that can perform a wide range of functions, from data analysis to customer support.
+Agentic workflows are a powerful way to automate complex tasks that require multiple steps and decision-making. They allow you to create a sequence of actions that Claude can execute autonomously, based on the goals you set. Agentic workflows can perform a wide range of functions, from data analysis to customer support.
 
 Examples of Agentic Workflows:
 
@@ -216,7 +312,7 @@ Examples of Agentic Workflows:
 - **Automated Feature Development Workflow**: Claude can take a feature request, break it down into smaller tasks, and implement the feature autonomously, while keeping you updated on the progress and any decisions being made.
 - **Automated Refactoring Workflow**: Claude can analyze the codebase for areas that could benefit from refactoring, suggest improvements, and make changes autonomously to improve code quality and maintainability.
 
-**WAT** stands for "Workflow Automation Tool" and is a framework for building agentic workflows. It allows you to define a series of steps that an AI agent can execute to achieve a specific goal. Each step can involve different actions, such as making API calls, processing data, or interacting with users.  
+**WAT** stands for "Workflows, Agent, Tools" and is a framework for building agentic workflows. It allows you to define a series of steps that an AI agent can execute to achieve a specific goal. Each step can involve different actions, such as making API calls, processing data, or interacting with users.  
 
 **A2A** stands for "Agent-to-Agent" communication, which is a key aspect of agentic workflows. It enables different AI agents to communicate and collaborate with each other to accomplish tasks that may require multiple skills or expertise. This allows for more complex and efficient workflows, as agents can share information and delegate tasks to each other as needed.
 
@@ -243,7 +339,3 @@ Examples of Agentic Workflows:
 ## RAG - Retrieval-Augmented Generation
 
 Retrieval-Augmented Generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources.[1] With RAG,
-
-
-
-
