@@ -4,6 +4,26 @@ Claude Code is an AI agent designed to help developers understand and work with 
 
 ![Tools with Claude Code](images/claude_tools.png)
 
+## Table of Contents
+
+- [Most Used Claude Commands](#most-used-claude-commands)
+- [CLAUDE.md file](#claudemd-file)
+- [Skills](#skills)
+- [Managing Context](#managing-context)
+- [Permission Modes](#permission-modes)
+- [Planning Mode](#planning-mode)
+- [Thinking Mode](#thinking-mode)
+- [MCP Servers](#mcp-servers)
+- [Hooks](#hooks)
+- [Subagents](#subagents)
+- [Scheduled Tasks](#scheduled-tasks)
+- [Marketplace and Plugins](#marketplace-and-plugins)
+- [Initial Permission Mode](#initial-permission-mode)
+- [WAT Framework (Workflows, Agent, Tools)](#wat-framework-workflows-agent-tools)
+- [Agentic Workflows](#agentic-workflows)
+- [Tools and Platforms](#tools-and-platforms)
+- [RAG - Retrieval-Augmented Generation](#rag---retrieval-augmented-generation)
+
 ## Most Used Claude Commands
 
 ```bash
