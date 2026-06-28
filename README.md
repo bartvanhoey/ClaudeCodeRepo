@@ -2,29 +2,45 @@
 
 Claude Code is an AI agent designed to help developers understand and work with codebases more efficiently. It can read, edit, and write code, as well as execute commands and interact with various tools to assist you in your development workflow.
 
-> This README is a personal reference guide covering Claude Code's commands, configuration, and concepts — from slash commands and keyboard shortcuts to hooks, MCP servers, subagents, and agentic workflows. Use the table of contents to jump to any topic.
+> This README is a reference guide covering Claude Code's commands, configuration, and concepts — from slash commands and keyboard shortcuts to hooks, MCP servers, subagents, and agentic workflows. Use the table of contents to jump to any topic.
 
 ![Tools with Claude Code](images/claude_tools.png)
 
 ## Table of Contents
 
-- [Most Used Claude Commands](#most-used-claude-commands)
-- [CLAUDE.md file](#claudemd-file)
-- [Skills](#skills)
-- [Managing Context](#managing-context)
-- [Permission Modes](#permission-modes)
-- [Planning Mode](#planning-mode)
-- [Thinking Mode](#thinking-mode)
-- [MCP Servers](#mcp-servers)
-- [Hooks](#hooks)
-- [Subagents](#subagents)
-- [Scheduled Tasks](#scheduled-tasks)
-- [Marketplace and Plugins](#marketplace-and-plugins)
-- [Initial Permission Mode](#initial-permission-mode)
-- [WAT Framework (Workflows, Agent, Tools)](#wat-framework-workflows-agent-tools)
-- [Agentic Workflows](#agentic-workflows)
-- [Tools and Platforms](#tools-and-platforms)
-- [RAG - Retrieval-Augmented Generation](#rag---retrieval-augmented-generation)
+- [Claude Code](#claude-code)
+  - [Table of Contents](#table-of-contents)
+  - [Most Used Claude Commands](#most-used-claude-commands)
+    - [Slash Commands](#slash-commands)
+    - [Special Prefixes](#special-prefixes)
+    - [Keyboard Shortcuts](#keyboard-shortcuts)
+  - [CLAUDE.md file](#claudemd-file)
+  - [Skills](#skills)
+  - [Managing Context](#managing-context)
+  - [Permission Modes](#permission-modes)
+  - [Thinking Mode](#thinking-mode)
+  - [MCP Servers](#mcp-servers)
+    - [The core idea](#the-core-idea)
+    - [How it works](#how-it-works)
+    - [Real examples](#real-examples)
+    - [Why it matters](#why-it-matters)
+    - [Installing an MCP server](#installing-an-mcp-server)
+  - [Hooks](#hooks)
+    - [Building a Hook](#building-a-hook)
+  - [Subagents](#subagents)
+  - [Scheduled Tasks](#scheduled-tasks)
+    - [Cloud Routines](#cloud-routines)
+    - [Desktop Tasks](#desktop-tasks)
+    - [/loop](#loop)
+  - [Marketplace and Plugins](#marketplace-and-plugins)
+  - [Initial Permission Mode](#initial-permission-mode)
+  - [WAT Framework (Workflows, Agent, Tools)](#wat-framework-workflows-agent-tools)
+  - [Agentic Workflows](#agentic-workflows)
+  - [Tools and Platforms](#tools-and-platforms)
+  - [RAG - Retrieval-Augmented Generation](#rag---retrieval-augmented-generation)
+    - [How it works](#how-it-works-1)
+    - [Why it matters for Claude](#why-it-matters-for-claude)
+    - [Common tools](#common-tools)
 
 ## Most Used Claude Commands
 
