@@ -4,8 +4,6 @@ Claude Code is an AI agent designed to help developers understand and work with 
 
 > This README is a reference guide covering Claude Code's commands, configuration, and concepts — from slash commands, skills, hooks, MCP servers, subagents, and agentic workflows. Use the table of contents to jump to any topic.
 
-![Tools with Claude Code](images/claude_tools.png)
-
 ## Table of Contents
 
 - [Most Used Claude Commands](#most-used-claude-commands)
@@ -26,6 +24,7 @@ Claude Code is an AI agent designed to help developers understand and work with 
 - [Hooks](#hooks)
   - [Building a Hook](#building-a-hook)
 - [Subagents](#subagents)
+  - [Skills vs. Subagents](#skills-vs-subagents)
 - [Scheduled Tasks](#scheduled-tasks)
   - [Cloud Routines](#cloud-routines)
   - [Desktop Tasks](#desktop-tasks)
@@ -238,6 +237,8 @@ Key environment variables available in hook commands:
 | `$CLAUDE_TOOL_NAME` | Name of the tool that fired the hook |
 | `$CLAUDE_TOOL_INPUT` | JSON-encoded input to the tool |
 
+![Tools with Claude Code](images/claude_tools.png)
+
 ## Subagents
 
 Subagents are agents spawned by the main agent to handle delegated or parallel subtasks. Each subagent starts fresh with its own isolated context and a limited set of tools, keeping it focused on one job.
@@ -246,6 +247,24 @@ Subagents are agents spawned by the main agent to handle delegated or parallel s
 - Highly specialized for a specific task
 - Can run in parallel to handle multiple tasks at once
 - Work with a limited set of tools to stay focused
+
+### Skills vs. Subagents
+
+A skill and a subagent solve different problems, even though both extend what Claude can do.
+
+- **Skill** — a set of instructions/knowledge loaded into Claude's *own* context to guide how it does something. It doesn't run independently or have its own context window; it just expands into extra guidance (e.g. "here's how to build a .docx file") that Claude then follows itself.
+- **Subagent** — a separate agent instance with its own context window that Claude delegates a task to. It runs independently, makes its own tool calls, and reports back a single result.
+
+Analogy: a skill is like handing Claude a manual to read before it does the task itself; a subagent is like handing the task to a coworker and waiting for them to hand back the result.
+
+**Why use a subagent instead of just doing the work directly:**
+
+| Reason | Benefit |
+|--------|---------|
+| Context management | Keeps noisy intermediate output (file reads, search results) out of the main context |
+| Parallelism | Independent tasks can run as separate subagents at the same time instead of sequentially |
+| Independent judgment | A fresh subagent has no memory of prior reasoning, useful for a second opinion or adversarial check |
+| Specialization | Some subagent types have narrower toolsets or tuned prompts, making them faster or more reliable at a specific job |
 
 **How they're triggered:**
 
