@@ -1,13 +1,35 @@
 # Claude Code <a href="https://github.com/bartvanhoey/ClaudeCodeRepo/actions/workflows/validate-readme.yml"><img align="right" src="https://github.com/bartvanhoey/ClaudeCodeRepo/actions/workflows/validate-readme.yml/badge.svg" alt="Validate README"></a>
 
-Claude Code is an AI agent designed to help developers understand and work with codebases more efficiently. It can read, edit, and write code, as well as execute commands and interact with various tools to assist you in your development workflow.
+Claude Code is an agentic coding tool that runs in your terminal. It lets you delegate coding tasks directly to Claude from the command line — Claude reads, edits, and writes code, runs commands, and works autonomously toward a goal you set, exploring your repo first so its changes fit your existing patterns.
+
+Key things it does:
+
+- **Edits files across your codebase** — reads, writes, and refactors code with full context of your project
+- **Runs commands** — executes shell commands, tests, linters, build tools, etc.
+- **Works autonomously** — you give it a goal ("fix the failing tests", "add auth to this API") and it figures out the steps
+- **Understands your codebase** — it explores your repo structure before acting, so changes fit your patterns
+- **Supports MCP** — extend it with MCP servers to connect it to external tools and APIs
+- **Supports skills/commands** — reusable `/slash` commands for consistent workflows
+- **Can run different tasks in parallel** — via subagents
+
+It's designed for developers who want to stay in the terminal and have Claude act as a capable pair programmer that can actually do the work, not just suggest it.
 
 > This README is a reference guide covering Claude Code's commands, configuration, and concepts — from slash commands, skills, hooks, MCP servers, subagents, and agentic workflows. Use the table of contents to jump to any topic.
 
-![Tools with Claude Code](images/claude_tools.png)
+## Core Concepts
+
+A few core ideas explain most of how Claude Code behaves — each is covered in full further down:
+
+- **CLAUDE.md** is a project memory file. Notes you put there (coding style, key commands, conventions) are loaded automatically, so Claude follows your project's rules without being reminded. See [CLAUDE.md file](#claudemd-file).
+- **Agentic** means Claude doesn't just answer once — it works in a loop. It reads files, runs a command, looks at the result, and decides the next step on its own until the goal is done.
+- **Context** is everything Claude can "see" at one time: your prompt, the files it has opened, and command output. It's like Claude's short-term memory for the current task — the bigger the task, the more context it uses. See [Managing Context](#managing-context).
+- **Tokens** are small chunks of text (roughly ¾ of a word each). Everything Claude reads and writes is measured in tokens — they're the unit you're billed on. See [Tokens](#tokens).
+- **Plan mode** lets Claude think through and propose a plan before changing any files. You approve the plan, then it executes — good for bigger or riskier changes. See [Permission Modes](#permission-modes).
+- **Permissions** keep you in control. Claude asks before doing sensitive things (like running certain commands), so nothing happens behind your back. See [Permission Modes](#permission-modes).
 
 ## Table of Contents
 
+- [Core Concepts](#core-concepts)
 - [Most Used Claude Commands](#most-used-claude-commands)
   - [Slash Commands](#slash-commands)
   - [Special Prefixes](#special-prefixes)
@@ -17,6 +39,10 @@ Claude Code is an AI agent designed to help developers understand and work with 
 - [Managing Context](#managing-context)
 - [Permission Modes](#permission-modes)
 - [Thinking Mode](#thinking-mode)
+- [Models](#models)
+  - [Switching Models](#switching-models)
+- [Tokens](#tokens)
+- [Claude Code Plans](#claude-code-plans)
 - [MCP Servers](#mcp-servers)
   - [The core idea](#the-core-idea)
   - [How it works](#how-it-works)
@@ -26,6 +52,7 @@ Claude Code is an AI agent designed to help developers understand and work with 
 - [Hooks](#hooks)
   - [Building a Hook](#building-a-hook)
 - [Subagents](#subagents)
+  - [Skills vs. Subagents](#skills-vs-subagents)
 - [Scheduled Tasks](#scheduled-tasks)
   - [Cloud Routines](#cloud-routines)
   - [Desktop Tasks](#desktop-tasks)
@@ -53,6 +80,10 @@ Start Claude Code by running `claude` in your terminal.
 | `/model` | Show the current model and switch to a different one |
 | `/compact` | Summarize conversation history to free up context |
 | `/clear` | Clear conversation history and start fresh |
+| `/exit` | Exit the current Claude Code session |
+| `/agents` | List and manage agents |
+| `/login` | Log in to your Claude Code account |
+| `/skills` | List all available skills |
 
 ### Special Prefixes
 
@@ -125,6 +156,41 @@ Use `Shift+Tab` to cycle through modes.
 'Think' | 'Think more' | 'Think a lot' | 'Think longer' | 'Ultrathink'
 
 Planning and Thinking can be used together. When you want Claude to think more about a plan, you can use the 'Think' commands to have it iterate on the plan and come up with better solutions.
+
+## Models
+
+Claude Code can run on different Claude models, each with its own tradeoff between speed, cost, and reasoning depth.
+
+| Model | Best for |
+|-------|----------|
+| **Haiku 4.5** | Fastest and cheapest — quick, simple tasks where deep reasoning isn't needed |
+| **Sonnet 5** | The default — strong balance of speed and capability for everyday coding tasks |
+| **Opus 4.8** | The most capable model — complex reasoning, large refactors, and hard architectural decisions |
+| **Fable 5** | Specialized model available for select workflows |
+
+### Switching Models
+
+```bash
+# Show the current model and pick a different one
+/model
+```
+
+- `/model` opens an interactive picker — no need to remember exact model IDs
+- `/fast` toggles Fast mode, which uses Opus with faster output (available on Opus 4.7/4.8) — it does not downgrade to a smaller model
+- Subagents can also be configured to use a specific model, overriding the main conversation's model for that task
+
+## Tokens
+
+When you prompt Claude Code, it costs tokens to process the context of your codebase and the task you want it to perform — everything Claude reads and writes is measured in tokens.
+
+A rough rule of thumb: reading more files and longer tasks use more tokens. Commands like `/compact` and `/clear` help by trimming context you no longer need — see [Managing Context](#managing-context).
+
+## Claude Code Plans
+
+Claude Code is available in different subscription plans. The more you pay, the more tokens (usage) you get for your coding tasks.
+
+- Use `/usage` to see your current token usage for the session
+- Heavier tasks and larger models consume your quota faster — see [Models](#models) for the cost/capability tradeoff
 
 ## MCP Servers
 
@@ -238,6 +304,8 @@ Key environment variables available in hook commands:
 | `$CLAUDE_TOOL_NAME` | Name of the tool that fired the hook |
 | `$CLAUDE_TOOL_INPUT` | JSON-encoded input to the tool |
 
+![Tools with Claude Code](images/claude_tools.png)
+
 ## Subagents
 
 Subagents are agents spawned by the main agent to handle delegated or parallel subtasks. Each subagent starts fresh with its own isolated context and a limited set of tools, keeping it focused on one job.
@@ -246,6 +314,24 @@ Subagents are agents spawned by the main agent to handle delegated or parallel s
 - Highly specialized for a specific task
 - Can run in parallel to handle multiple tasks at once
 - Work with a limited set of tools to stay focused
+
+### Skills vs. Subagents
+
+A skill and a subagent solve different problems, even though both extend what Claude can do.
+
+- **Skill** — a set of instructions/knowledge loaded into Claude's *own* context to guide how it does something. It doesn't run independently or have its own context window; it just expands into extra guidance (e.g. "here's how to build a .docx file") that Claude then follows itself.
+- **Subagent** — a separate agent instance with its own context window that Claude delegates a task to. It runs independently, makes its own tool calls, and reports back a single result.
+
+Analogy: a skill is like handing Claude a manual to read before it does the task itself; a subagent is like handing the task to a coworker and waiting for them to hand back the result.
+
+**Why use a subagent instead of just doing the work directly:**
+
+| Reason | Benefit |
+|--------|---------|
+| Context management | Keeps noisy intermediate output (file reads, search results) out of the main context |
+| Parallelism | Independent tasks can run as separate subagents at the same time instead of sequentially |
+| Independent judgment | A fresh subagent has no memory of prior reasoning, useful for a second opinion or adversarial check |
+| Specialization | Some subagent types have narrower toolsets or tuned prompts, making them faster or more reliable at a specific job |
 
 **How they're triggered:**
 
