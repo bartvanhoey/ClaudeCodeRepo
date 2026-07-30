@@ -29,7 +29,7 @@ A few core ideas explain most of how Claude Code behaves — each is covered in 
 
 ## Table of Contents
 
-- [Claude Code ](#claude-code-)
+- [Claude Code](#claude-code-)
   - [Core Concepts](#core-concepts)
   - [Table of Contents](#table-of-contents)
   - [Most Used Claude Commands](#most-used-claude-commands)
