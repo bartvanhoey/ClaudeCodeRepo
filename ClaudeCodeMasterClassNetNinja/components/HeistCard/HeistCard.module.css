@@ -1,0 +1,134 @@
+@reference "../../app/globals.css";
+
+.card {
+  @apply relative flex flex-col gap-4 rounded-2xl p-5;
+  background: var(--color-light);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(194, 122, 255, 0.12);
+}
+
+/* status accent stripe */
+.card::before {
+  content: "";
+  @apply absolute top-0 left-0 w-1 h-full rounded-l-2xl;
+}
+.card[data-status="planning"]::before { background: var(--color-primary); }
+.card[data-status="active"]::before   { background: var(--color-success); }
+.card[data-status="completed"]::before { background: var(--color-body); }
+.card[data-status="failed"]::before   { background: var(--color-error); }
+.card[data-status="aborted"]::before  { background: #6B7280; }
+
+/* ── header ── */
+.header {
+  @apply flex items-start gap-3;
+}
+.categoryIcon {
+  @apply text-2xl leading-none mt-0.5 shrink-0;
+}
+.titleBlock {
+  @apply flex flex-col gap-1 flex-1 min-w-0;
+}
+.name {
+  @apply text-base font-semibold truncate;
+  color: var(--color-heading);
+}
+.location {
+  @apply flex items-center gap-1 text-xs;
+  color: var(--color-body);
+}
+
+/* ── status badge ── */
+.badge {
+  @apply shrink-0 text-xs font-medium px-2 py-0.5 rounded-full uppercase tracking-wide;
+}
+.badge_planning  { background: rgba(194, 122, 255, 0.15); color: var(--color-primary); }
+.badge_active    { background: rgba(5, 223, 114, 0.15);   color: var(--color-success); }
+.badge_completed { background: rgba(153, 161, 175, 0.15); color: var(--color-body); }
+.badge_failed    { background: rgba(255, 100, 103, 0.15); color: var(--color-error); }
+.badge_aborted   { background: rgba(107, 114, 128, 0.15); color: #9CA3AF; }
+
+/* ── description ── */
+.description {
+  @apply text-sm leading-relaxed line-clamp-2;
+  color: var(--color-body);
+}
+
+/* ── stats grid ── */
+.stats {
+  @apply grid grid-cols-2 gap-x-4 gap-y-3;
+}
+.stat {
+  @apply flex flex-col gap-0.5;
+}
+.statLabel {
+  @apply text-xs;
+  color: var(--color-body);
+}
+.statValue {
+  @apply text-sm font-semibold;
+  color: var(--color-heading);
+}
+
+/* ── footer ── */
+.footer {
+  @apply flex items-center justify-between pt-3;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.footerLabel {
+  @apply text-xs mr-1.5;
+  color: var(--color-body);
+}
+
+/* difficulty */
+.difficulty {
+  @apply flex items-center gap-1.5;
+}
+.difficultyDots {
+  @apply text-xs tracking-tighter;
+  color: var(--color-primary);
+}
+.difficultyName {
+  @apply text-xs capitalize;
+  color: var(--color-heading);
+}
+
+/* risk bar */
+.riskBlock {
+  @apply flex items-center gap-2;
+}
+.riskBar {
+  @apply w-20 h-1.5 rounded-full overflow-hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+.riskFill {
+  @apply h-full rounded-full transition-all duration-300;
+  width: var(--risk-width, 0%);
+}
+.riskFill[data-risk="high"]   { background: var(--color-error); }
+.riskFill[data-risk="medium"] { background: #F59E0B; }
+.riskFill[data-risk="low"]    { background: var(--color-success); }
+@media (forced-colors: active) {
+  .riskFill { forced-color-adjust: none; background: ButtonText; }
+}
+.riskValue {
+  @apply text-xs font-medium tabular-nums;
+}
+.riskValue[data-risk="high"]   { color: var(--color-error); }
+.riskValue[data-risk="medium"] { color: #F59E0B; }
+.riskValue[data-risk="low"]    { color: var(--color-success); }
+
+/* ── preview layout (used in /preview page) ── */
+.previewSection {
+  @apply mt-8;
+}
+.previewSection h3 {
+  @apply mb-4 text-2xl;
+}
+.previewGrid {
+  @apply grid gap-4;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
