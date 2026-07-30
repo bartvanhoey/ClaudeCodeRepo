@@ -1,0 +1,21 @@
+name: Validate README
+
+on:
+  push:
+    paths:
+      - README.md
+  pull_request:
+    paths:
+      - README.md
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Markdownlint
+        run: npx markdownlint-cli README.md
+
+      - name: Check links
+        run: npx markdown-link-check README.md --quiet
