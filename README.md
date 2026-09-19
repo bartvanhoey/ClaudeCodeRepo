@@ -68,6 +68,8 @@ A few core ideas explain most of how Claude Code behaves — each is covered in 
     - [How RAG works](#how-rag-works)
     - [Why it matters for Claude](#why-it-matters-for-claude)
     - [Common tools](#common-tools)
+  - [Harness](#harness)
+  - [Harness Engineering](#harness-engineering)
 
 ## Most Used Claude Commands
 
@@ -505,3 +507,11 @@ RAG lets you connect Claude to your own data — internal docs, codebases, suppo
 | `LangChain` / `LlamaIndex` | Orchestration frameworks |
 | `Tavily` / `Serper` | Real-time web retrieval |
 | Claude API | LLM that reasons over retrieved context |
+
+## Harness
+
+In an AI agent system, the "harness" is everything that wraps the model to turn it into a working agent — the scaffolding, not the reasoning itself, captured by the shorthand **Agent = Model + Harness**. Concretely, it includes the control loop that repeatedly calls the model, parses its output, and executes tool calls; the tool/function-calling layer connecting the model to search, code execution, APIs, or MCP servers; context and memory management (system prompts, conversation history, compaction, scratchpads); and control-flow logic like retries, timeouts, step limits, and validation checks on outputs. The model itself is a stateless reasoner that decides what to do next given its context, while the harness is the runtime infrastructure that actually carries those decisions out in the real world. This distinction matters because as models have gotten more capable, the main lever for reliable agent performance has shifted from prompting the model better to designing the surrounding harness well — much of what causes agents to fail in production traces back to harness gaps rather than model limitations. In coding-specific tools like Claude Code or Cursor, the harness shows up concretely as context files (e.g. AGENTS.md), Skills, and sub-agent configurations that shape how the agent behaves on a given codebase.
+
+## Harness Engineering
+
+Harness engineering is the discipline of building everything around an LLM that turns it into a working agent, captured by the shorthand **Agent = Model + Harness**. The harness covers the control loop (calling the model, parsing output, executing tool calls, deciding when to stop), tool/function calling, context and memory management, and guardrails like retries and step limits. It emerged as its own named discipline in 2026, once models got capable enough that the bottleneck shifted from writing better prompts to designing the system around the model — what context it sees, how its outputs get validated, how tasks get orchestrated. The core claim is that a lot of agent failures in production trace to weak harness design rather than model limitations, and that pairing the same harness with a better model compounds performance rather than one substituting for the other. In coding tools specifically (Claude Code, Cursor, Copilot), it narrows to concrete mechanisms like AGENTS.md context files, Skills, and sub-agent configurations that shape how well the agent performs on a given codebase.
