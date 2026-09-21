@@ -55,6 +55,7 @@ A few core ideas explain most of how Claude Code behaves — each is covered in 
     - [Building a Hook](#building-a-hook)
   - [Subagents](#subagents)
     - [Skills vs. Subagents](#skills-vs-subagents)
+  - [Progressive Disclosure](#progressive-disclosure)
   - [Scheduled Tasks](#scheduled-tasks)
     - [Cloud Routines](#cloud-routines)
     - [Desktop Tasks](#desktop-tasks)
@@ -68,6 +69,7 @@ A few core ideas explain most of how Claude Code behaves — each is covered in 
     - [How RAG works](#how-rag-works)
     - [Why it matters for Claude](#why-it-matters-for-claude)
     - [Common tools](#common-tools)
+  - [Human-in-the-Loop (HITL)](#human-in-the-loop-hitl)
   - [Harness](#harness)
   - [Harness Engineering](#harness-engineering)
 
@@ -361,6 +363,12 @@ Analogy: a skill is like handing Claude a manual to read before it does the task
 | UX Reviewer | Reviews user experience and suggests improvements |
 | Code Quality | Checks for best practices and maintainability |
 
+## Progressive Disclosure
+
+Progressive disclosure is a design principle where information is revealed to the user gradually, as needed, rather than all at once.
+In the context of Claude Code, this means that complex features, advanced settings, or detailed outputs are only shown when relevant,
+helping to keep the interface clean and the user experience manageable.
+
 ## Scheduled Tasks
 
 Claude Code offers three ways to schedule automated tasks:
@@ -508,9 +516,22 @@ RAG lets you connect Claude to your own data — internal docs, codebases, suppo
 | `Tavily` / `Serper` | Real-time web retrieval |
 | Claude API | LLM that reasons over retrieved context |
 
+## Human-in-the-Loop (HITL)
+
+Human-in-the-Loop (HITL) refers to the practice of involving human oversight and intervention in the operation of an LLM-based agent. This can include reviewing and approving actions suggested by the agent, providing feedback to improve its performance, and handling edge cases that the agent may not be able to manage autonomously. HITL is crucial for ensuring reliability, safety, and alignment with human values, especially in high-stakes or complex environments.
+
 ## Harness
 
-In an AI agent system, the "harness" is everything that wraps the model to turn it into a working agent — the scaffolding, not the reasoning itself, captured by the shorthand **Agent = Model + Harness**. Concretely, it includes the control loop that repeatedly calls the model, parses its output, and executes tool calls; the tool/function-calling layer connecting the model to search, code execution, APIs, or MCP servers; context and memory management (system prompts, conversation history, compaction, scratchpads); and control-flow logic like retries, timeouts, step limits, and validation checks on outputs. The model itself is a stateless reasoner that decides what to do next given its context, while the harness is the runtime infrastructure that actually carries those decisions out in the real world. This distinction matters because as models have gotten more capable, the main lever for reliable agent performance has shifted from prompting the model better to designing the surrounding harness well — much of what causes agents to fail in production traces back to harness gaps rather than model limitations. In coding-specific tools like Claude Code or Cursor, the harness shows up concretely as context files (e.g. AGENTS.md), Skills, and sub-agent configurations that shape how the agent behaves on a given codebase.
+A Harness is the infrastructure and scaffolding that surrounds an LLM to turn it into a functional agent. It handles the control loop, tool integration, context management, and execution of the model's decisions in the real world. Concretely, it includes the control loop that repeatedly calls the model, parses its output, and executes tool calls; the tool/function-calling layer connecting the model to search, code execution, APIs, or MCP servers; context and memory management (system prompts, conversation history, compaction, scratchpads); and control-flow logic like retries, timeouts, step limits, and validation checks on outputs. The model itself is a stateless reasoner that decides what to do next given its context, while the harness is the runtime infrastructure that actually carries those decisions out in the real world. This distinction matters because as models have gotten more capable, the main lever for reliable agent performance has shifted from prompting the model better to designing the surrounding harness well — much of what causes agents to fail in production traces back to harness gaps rather than model limitations. In coding-specific tools like Claude Code or Cursor, the harness shows up concretely as context files (e.g. AGENTS.md), Skills, and sub-agent configurations that shape how the agent behaves on a given codebase.
+
+3 levers for Harness Engineering:
+
+- **Context and Memory Management**: Handling system prompts, conversation history, compaction, scratchpads, CLAUDE.md, Skills, and other mechanisms to maintain and manage the agent's context effectively.
+- **Tool Integration**: The layer connecting the model to external tools, APIs, search, code execution, connectors, or MCP servers.
+- **Control Loop**: The mechanism that repeatedly calls the model, parses its output, and executes tool calls:
+  - Scheduling tasks with the /schedule command (nightly code-review) is an example of how the control loop can manage task execution over time.
+  - Hooks that allow custom logic to be executed at specific points in the control loop, such as before or after a tool call. (SessionEnd, PostToolUse, PreToolUse, git pre-commit, git pre-push etc.)
+  - Evals are tests that assess the performance and correctness of the agent within the control loop.
 
 ## Harness Engineering
 
