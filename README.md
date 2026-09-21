@@ -1,4 +1,6 @@
-# Claude Code <a href="https://github.com/bartvanhoey/ClaudeCodeRepo/actions/workflows/validate-readme.yml"><img align="right" src="https://github.com/bartvanhoey/ClaudeCodeRepo/actions/workflows/validate-readme.yml/badge.svg" alt="Validate README"></a>
+# Claude Code
+
+<a href="https://github.com/bartvanhoey/ClaudeCodeRepo/actions/workflows/validate-readme.yml"><img align="right" src="https://github.com/bartvanhoey/ClaudeCodeRepo/actions/workflows/validate-readme.yml/badge.svg" alt="Validate README"></a>
 
 Claude Code is an agentic coding tool that runs in your terminal. It lets you delegate coding tasks directly to Claude from the command line — Claude reads, edits, and writes code, runs commands, and works autonomously toward a goal you set, exploring your repo first so its changes fit your existing patterns.
 
@@ -29,7 +31,7 @@ A few core ideas explain most of how Claude Code behaves — each is covered in 
 
 ## Table of Contents
 
-- [Claude Code ](#claude-code-)
+- [Claude Code](#claude-code)
   - [Core Concepts](#core-concepts)
   - [Table of Contents](#table-of-contents)
   - [Most Used Claude Commands](#most-used-claude-commands)
