@@ -74,6 +74,8 @@ A few core ideas explain most of how Claude Code behaves — each is covered in 
   - [Human-in-the-Loop (HITL)](#human-in-the-loop-hitl)
   - [Harness](#harness)
   - [Harness Engineering](#harness-engineering)
+  - [Loop Engineering](#loop-engineering)
+  - [Agent Loop](#agent-loop)
 
 ## Most Used Claude Commands
 
@@ -526,6 +528,12 @@ Human-in-the-Loop (HITL) refers to the practice of involving human oversight and
 
 A Harness is the infrastructure and scaffolding that surrounds an LLM to turn it into a functional agent. It handles the control loop, tool integration, context management, and execution of the model's decisions in the real world. Concretely, it includes the control loop that repeatedly calls the model, parses its output, and executes tool calls; the tool/function-calling layer connecting the model to search, code execution, APIs, or MCP servers; context and memory management (system prompts, conversation history, compaction, scratchpads); and control-flow logic like retries, timeouts, step limits, and validation checks on outputs. The model itself is a stateless reasoner that decides what to do next given its context, while the harness is the runtime infrastructure that actually carries those decisions out in the real world. This distinction matters because as models have gotten more capable, the main lever for reliable agent performance has shifted from prompting the model better to designing the surrounding harness well — much of what causes agents to fail in production traces back to harness gaps rather than model limitations. In coding-specific tools like Claude Code or Cursor, the harness shows up concretely as context files (e.g. AGENTS.md), Skills, and sub-agent configurations that shape how the agent behaves on a given codebase.
 
+Claude Code is a Harness, not an AI-Model. It is the runtime infrastructure that turns Claude into a working agent, with context management, tool integration, and control flow logic that allows it to operate autonomously in your codebase.
+
+## Harness Engineering
+
+Harness engineering is the discipline of building everything around an LLM that turns it into a working agent, captured by the shorthand **Agent = Model + Harness**. The harness covers the control loop (calling the model, parsing output, executing tool calls, deciding when to stop), tool/function calling, context and memory management, and guardrails like retries and step limits. It emerged as its own named discipline in 2026, once models got capable enough that the bottleneck shifted from writing better prompts to designing the system around the model — what context it sees, how its outputs get validated, how tasks get orchestrated. The core claim is that a lot of agent failures in production trace to weak harness design rather than model limitations, and that pairing the same harness with a better model compounds performance rather than one substituting for the other. In coding tools specifically (Claude Code, Cursor, Copilot), it narrows to concrete mechanisms like AGENTS.md context files, Skills, and sub-agent configurations that shape how well the agent performs on a given codebase.
+
 3 levers for Harness Engineering:
 
 - **Context and Memory Management**: Handling system prompts, conversation history, compaction, scratchpads, CLAUDE.md, Skills, and other mechanisms to maintain and manage the agent's context effectively.
@@ -535,6 +543,10 @@ A Harness is the infrastructure and scaffolding that surrounds an LLM to turn it
   - Hooks that allow custom logic to be executed at specific points in the control loop, such as before or after a tool call. (SessionEnd, PostToolUse, PreToolUse, git pre-commit, git pre-push etc.)
   - Evals are tests that assess the performance and correctness of the agent within the control loop.
 
-## Harness Engineering
+## Loop Engineering
 
-Harness engineering is the discipline of building everything around an LLM that turns it into a working agent, captured by the shorthand **Agent = Model + Harness**. The harness covers the control loop (calling the model, parsing output, executing tool calls, deciding when to stop), tool/function calling, context and memory management, and guardrails like retries and step limits. It emerged as its own named discipline in 2026, once models got capable enough that the bottleneck shifted from writing better prompts to designing the system around the model — what context it sees, how its outputs get validated, how tasks get orchestrated. The core claim is that a lot of agent failures in production trace to weak harness design rather than model limitations, and that pairing the same harness with a better model compounds performance rather than one substituting for the other. In coding tools specifically (Claude Code, Cursor, Copilot), it narrows to concrete mechanisms like AGENTS.md context files, Skills, and sub-agent configurations that shape how well the agent performs on a given codebase.
+Loop engineering is replacing yourself as the person who prompts the agent. You design the system that does it instead. A loop here can be thought of a recursive goal where you define a purpose and the AI iterates until complete. It's roughly five building blocks and Claude Code and Codex both have all five now.
+
+## Agent Loop
+
+An agent loop is just an AI that reasons what to do, acts, and observes the result, over and over again until the goal is complete. The loop is the control flow that allows an agent to operate autonomously, making decisions based on its observations and the context it has. It consists of three main components:
