@@ -76,6 +76,7 @@ A few core ideas explain most of how Claude Code behaves — each is covered in 
   - [Harness Engineering](#harness-engineering)
   - [Loop Engineering](#loop-engineering)
   - [Agent Loop](#agent-loop)
+  - [Software Factory](#software-factory)
 
 ## Most Used Claude Commands
 
@@ -549,4 +550,10 @@ Loop engineering is replacing yourself as the person who prompts the agent. You 
 
 ## Agent Loop
 
-An agent loop is just an AI that reasons what to do, acts, and observes the result, over and over again until the goal is complete. The loop is the control flow that allows an agent to operate autonomously, making decisions based on its observations and the context it has. It consists of three main components:
+An agent loop is just an AI that reasons what to do, acts, and observes the result, over and over again until the goal is complete. The loop is the control flow that allows an agent to operate autonomously, making decisions based on its observations and the context it has.
+
+## Software Factory
+
+A software factory is a system that automates the entire software development lifecycle, from requirements gathering to deployment and maintenance. It leverages agentic workflows, harness engineering, and loop engineering to create a continuous, automated process for building, testing, and deploying software.  Humans only step in to provide high-level guidance, review outputs, and handle edge cases. The software factory can include multiple agents working in parallel, each responsible for different aspects of the development process, such as code generation, testing, documentation, and deployment. This approach aims to increase efficiency, reduce errors, and accelerate the delivery of software products.
+
+[![Software Factories, Explained](https://img.youtube.com/vi/AsvzMlLyQ38/maxresdefault.jpg)](https://www.youtube.com/watch?v=AsvzMlLyQ38&t=1193s)
