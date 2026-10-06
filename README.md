@@ -55,6 +55,7 @@ A few core ideas explain most of how Claude Code behaves — each is covered in 
     - [Installing an MCP server](#installing-an-mcp-server)
   - [Hooks](#hooks)
     - [Building a Hook](#building-a-hook)
+  - [Mods](#mods)
   - [Subagents](#subagents)
     - [Skills vs. Subagents](#skills-vs-subagents)
   - [Progressive Disclosure](#progressive-disclosure)
@@ -321,6 +322,20 @@ Key environment variables available in hook commands:
 | `$CLAUDE_TOOL_INPUT` | JSON-encoded input to the tool |
 
 ![Tools with Claude Code](images/claude_tools.png)
+
+## Mods
+
+Mods are a Claude Code feature launched October 1, 2026: small TypeScript functions that change how Claude Code works. You can write one yourself or ask Claude Code to write it for you.
+
+- **How they work:** Claude Code emits an event whenever it does something, and a mod hooks into those events. Unlike regular [hooks](#hooks), a mod's handlers are functions running inside Claude Code, so they can also replace or restyle what Claude Code draws itself (a tool call's row, the spinner, the question dialog). Anthropic's "Blast Radius" sample shows an explanation of a high-risk command like `rm -rf` in a side pane.
+- **Built-in mods:** some core features, such as `/diff`, are already mods. Anthropic plans to move more over time so you can shrink Claude Code to a small core and add back only what you want.
+- **Requirements:** Claude Code v2.1.287 or later (on by default), in the CLI and the Code tab of the Claude Desktop app. Behavior differs in the VS Code extension, `claude -p` and cloud sessions.
+- **Distribution:** mods ship inside [plugins](#marketplace-and-plugins), so existing plugin controls apply. Install with `/plugin install name@marketplace`; `/plugin` shows which mods a session loaded.
+- **Security:** mods have the same machine access as Claude Code, aren't sandboxed, and run inside the Claude Code process where classic endpoint security tools can't see them. Install only from trusted authors or marketplaces and check them first with `claude plugin validate`.
+
+```bash
+claude plugin validate
+```
 
 ## Subagents
 
