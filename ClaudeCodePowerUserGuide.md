@@ -183,6 +183,13 @@ npx skills add https://github.com/Shubhamsaboo/awesome-llm-apps --skill code-rev
 
 next-steps is a small productivity plugin by Thariq Shihipar (MIT, v1.0.0) that suggests what to type next after Claude finishes a turn. It isn't a skill or slash command but a [mod](README.md#mods): a function-hooks plugin (`hooks/register.tsx`).
 
+It is available in the `anthropics/claude-plugins-community` marketplace. In Claude Code, add the marketplace (skip if you already have it), then install the plugin:
+
+```bash
+/plugin marketplace add anthropics/claude-plugins-community
+/plugin install next-steps@claude-plugins-community
+```
+
 After each answer it shows up to three suggested prompts above the input box:
 
 ```text
