@@ -41,3 +41,15 @@ yarn-error.log*
 next-env.d.ts
 
 .mcp.json
+
+# claude code local/debug artifacts
+settings.local.json
+.playwright-mcp/
+hook-debug.json*
+prettier-hook.log
+tool-use.json
+pre-log.json
+post-log.json
+
+# vendored third-party skills
+.agents/

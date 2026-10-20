@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directories:
+      - /
+      - /examples/AgentSdkTutorial
+      - /examples/ClaudeCodeMasterClassNetNinja
+      - /examples/IbuiltThisApp
+      - /examples/claude-demo-app
+      - /examples/queriesApp
+    schedule:
+      interval: weekly
