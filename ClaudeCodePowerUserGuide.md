@@ -187,7 +187,7 @@ It is available in the `anthropics/claude-plugins-community` marketplace. In Cla
 
 ```bash
 /plugin marketplace add anthropics/claude-plugins-community
-/plugin install next-steps@claude-plugins-community
+/plugin install next-steps@claude-community
 ```
 
 After each answer it shows up to three suggested prompts above the input box:
