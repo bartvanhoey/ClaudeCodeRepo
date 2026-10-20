@@ -8,6 +8,5 @@ updates:
       - /examples/IbuiltThisApp
       - /examples/claude-demo-app
       - /examples/queriesApp
-      - /examples/uigenApp
     schedule:
       interval: weekly
