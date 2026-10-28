@@ -34,6 +34,91 @@ YOLO mode" has a specific meaning too: it refers to running a tool with all safe
 
 [Usage Monitor](https://github.com/jens-duttke/usage-monitor-for-claude)
 
+## Claude Usage Monitor (statusline)
+
+[claude-usage-monitor](https://github.com/aiedwardyi/claude-usage-monitor) is a statusline plugin for Claude Code. It shows your 5-hour and 7-day quota usage, context window usage, token counts, and reset countdowns directly in the terminal. It runs locally and needs no API key. Its only network call is to `https://api.anthropic.com/api/oauth/usage`.
+
+### Requirements
+
+- Claude Code CLI with an active subscription
+- Python 3.10+ (`python3`, `python`, or `py -3`)
+- An OAuth login. If you authenticated with an API key, run `claude login`.
+
+### Install
+
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/aiedwardyi/claude-usage-monitor/v0.2.1/install.ps1 | iex
+```
+
+macOS / Linux:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aiedwardyi/claude-usage-monitor/v0.2.1/install.sh | bash
+```
+
+To read the code before running it, clone the repo and run the installer yourself:
+
+```bash
+git clone https://github.com/aiedwardyi/claude-usage-monitor.git
+cd claude-usage-monitor
+git switch --detach v0.2.1
+python install.py
+```
+
+The installer copies the plugin to `~/.claude/plugins/claude-usage-monitor`, adds a `statusLine` entry to `~/.claude/settings.json` (the old file is backed up as `settings.json.bak`), and runs a smoke check. Restart Claude Code afterwards.
+
+### What the statusline shows
+
+- Model and project/git branch
+- Context window remaining (bar and percentage)
+- Input and output tokens for the session
+- 5h and 7d quota, each with a bar and a reset countdown
+- Session duration
+
+Bars show remaining quota and change color: green below 70% used, yellow at 70-90%, red above 90%. The first render can show `5h: --` and `7d: --` until the background fetch completes.
+
+### Configuration
+
+Set these as environment variables, or in the `env` block of `~/.claude/settings.json`:
+
+| Variable | Default | Description |
+|---|---|---|
+| `CQB_TOKENS` | `1` | Show token counts |
+| `CQB_RESET` | `1` | Show reset countdowns |
+| `CQB_DURATION` | `1` | Show session duration |
+| `CQB_BRANCH` | `1` | Show git branch |
+| `CQB_CONTEXT_SIZE` | `0` | Show context size label such as `of 1M` |
+| `CQB_PACE` | `0` | Show pacing indicator |
+| `CQB_COST` | `0` | Show session cost |
+| `CQB_REMAINING` | `1` | `1` shows remaining %, `0` shows used % |
+| `CQB_BAR` | `1` | Show progress bar beside 5h/7d quotas |
+| `CQB_EMAIL` | `0` | Show logged-in account email (OAuth only) |
+| `CQB_MAX_WIDTH` | terminal width | Max line width; low-priority segments drop on overflow |
+
+Example:
+
+```json
+{
+  "env": {
+    "CQB_PACE": "1",
+    "CQB_CONTEXT_SIZE": "1",
+    "CQB_COST": "1"
+  }
+}
+```
+
+### Troubleshooting
+
+- `5h: no token | 7d: no token`: run `claude login` to authenticate with OAuth.
+- Garbled characters: use a UTF-8 font, or run `chcp 65001` in older Windows terminals.
+- Launcher check fails: confirm `python3`, `python`, or `py -3` runs from your shell.
+
+### Uninstall
+
+Delete `~/.claude/plugins/claude-usage-monitor/`, remove the `statusLine` entry from `~/.claude/settings.json` (or restore `settings.json.bak`), and restart Claude Code.
+
 ## AskForUserQuestion
 
 AskForUserQuestion is a built-in tool in Claude Code that prompts the user for input before executing certain actions. It ensures that the user explicitly confirms or provides necessary information, adding an extra layer of safety and interactivity to the workflow.
