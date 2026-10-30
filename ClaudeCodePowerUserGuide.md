@@ -264,18 +264,25 @@ npx skills add https://github.com/Shubhamsaboo/awesome-llm-apps --skill code-rev
 /code-reviewer
 ```
 
-**[Security Audit Skill by Cloudflare](https://github.com/cloudflare/security-audit-skill).** Security guidance and vulnerability review for codebases, APIs, services, CLI tools, libraries and daemons. Use it for focused security questions, vulnerability research, full audits and pen-test style reviews. It isn't published through a marketplace, so install it manually by cloning the repo and copying the skill folder into your personal skills directory (PowerShell):
-
-```powershell
-git clone https://github.com/cloudflare/security-audit-skill $env:TEMP\security-audit-skill
-Copy-Item -Recurse $env:TEMP\security-audit-skill\skills\security-audit $env:USERPROFILE\.claude\skills\security-audit
-```
-
-Restart Claude Code so it picks up the new skill, then run it:
+**[Security Audit Skill by Cloudflare](https://github.com/cloudflare/security-audit-skill).** Security guidance and vulnerability review for codebases, APIs, services, CLI tools, libraries and daemons. Use it for focused security questions, vulnerability research, full audits and pen-test style reviews.
 
 ```text
+npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit
+
 /security-audit
 ```
+
+Add `--global` to install it at user level instead of in the current project.
+
+Why it is a must-have: most AI security reviews are a single pass that lists everything that looks suspicious, so you get a long report full of false alarms and no way to tell which items are real. This skill works the way a security team does. It is the single-repo starting point for Cloudflare's internal vulnerability discovery harness, and it runs a multi-phase audit with isolated agents:
+
+- **It maps before it hunts.** A reconnaissance phase records the architecture, trust boundaries and input surfaces in a coverage ledger. Hunters then work through that ledger, so the audit covers the whole codebase instead of only the files that look interesting.
+- **It tries to disprove its own findings.** A fresh verifier attacks every candidate, and independent agents recheck the final source claims. A finding is `confirmed` only with a complete source trace and a bounded observed result. Anything unresolved stays `needs_validation` with no severity assigned, and disproved candidates are `rejected`. You never get a severity rating the skill couldn't back up.
+- **It produces reviewable output.** Results go to `findings.json`, checked against a JSON schema, plus `REPORT.md`, `FINDINGS-DETAIL.md` and `NEEDS-VALIDATION.md` in `~/security-audit-skill/<repo-name>/run-<N>`. You can hand the report to a teammate or work through it item by item.
+- **It builds on earlier runs.** Repeated runs against the same repo reuse the previous ledgers and findings instead of starting over, so you can re-run it after each round of fixes.
+- **It is safe by default.** Target code is only executed inside an OS-enforced sandbox (no external network, sanitized environment, resource limits). Without one, leads stay `needs_validation` and nothing is run.
+
+It also adapts to the request. A direct audit or pen-test request runs the full workflow, while a plain security question gets focused guidance without the report artifacts. It is MIT licensed, and the validators need only Node.js.
 
 ## next-steps plugin
 
