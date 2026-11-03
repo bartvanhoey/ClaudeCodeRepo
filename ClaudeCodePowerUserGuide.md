@@ -264,19 +264,27 @@ npx skills add https://github.com/Shubhamsaboo/awesome-llm-apps --skill code-rev
 /code-reviewer
 ```
 
-**[Security Audit Skill by Cloudflare](https://github.com/cloudflare/security-audit-skill).** Security guidance and vulnerability review for codebases, APIs, services, CLI tools, libraries and daemons. Use it for focused security questions, vulnerability research, full audits and pen-test style reviews. It isn't published through a marketplace, so install it manually by cloning the repo and copying the skill folder into your personal skills directory (PowerShell):
+**[Security Audit Skill by Cloudflare](https://github.com/cloudflare/security-audit-skill).** Security guidance and vulnerability review for codebases, APIs, services, CLI tools, libraries and daemons. Use
+  it for focused security questions, vulnerability research, full audits and pen-test style reviews.
 
-```powershell
-git clone https://github.com/cloudflare/security-audit-skill $env:TEMP\security-audit-skill
-Copy-Item -Recurse $env:TEMP\security-audit-skill\skills\security-audit $env:USERPROFILE\.claude\skills\security-audit
-```
+  It isn't published through a marketplace, so install it manually by cloning the repo and copying the skill folder into your personal skills directory (PowerShell):
 
-Restart Claude Code so it picks up the new skill, then run it:
+  ```powershell
+  $clone = Join-Path $env:TEMP 'security-audit-skill'
+  $dest  = Join-Path $env:USERPROFILE '.claude\skills\security-audit'
 
-```text
-/security-audit
-```
+  git clone https://github.com/cloudflare/security-audit-skill $clone
+  New-Item -ItemType Directory -Force (Split-Path $dest) | Out-Null
+  if (Test-Path $dest) { Remove-Item -Recurse -Force $dest }
+  Copy-Item -Recurse (Join-Path $clone 'skills\security-audit') $dest
+  ```
 
+  Restart Claude Code so it picks up the new skill, then run it:
+
+  ```text
+  /security-audit
+  ```
+  
 ## next-steps plugin
 
 next-steps is a small productivity plugin by Thariq Shihipar (MIT, v1.0.0) that suggests what to type next after Claude finishes a turn. It isn't a skill or slash command but a [mod](README.md#mods): a function-hooks plugin (`hooks/register.tsx`).
