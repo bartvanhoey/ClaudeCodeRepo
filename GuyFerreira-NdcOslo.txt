@@ -1,0 +1,23 @@
+What claude can do that you haven't tried
+
+
+SETUP
+
+
+1. bring your setup over from another agent
+    /import codex
+
+2. Don't duplicate what already exists
+    Point you CLAUDE.md at files that already exists
+    @RULES.md @schema.json
+
+3. Check up your CLAUDE.md
+    /doctor 
+
+4. Keep secrets out of context
+    .claude/settings.json
+    permissions.deny
+
+
+
+
